@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	@foreach (var order in ViewBag.orders){
+	<table border="1">
+	<tr><th>orderId : @order.orderId </th></tr>
+
+		@foreach ( var item in order.items){
+<tr>
+			<td>@item.itemName</td>
+			<td>@item.price</td>
+</tr>
+		}
+
+
+	</table>
+	}
+
+
+
+</body>
+</html>

@@ -24,5 +24,13 @@ namespace demo.Controllers
             return Json(result, JsonRequestBehavior.DenyGet);
         }
 
+        public ActionResult Register()
+        {
+            ViewData["username"] = "Tom";
+            ViewData["password"] = "123";
+            ViewBag.total = "10000";
+            return View();
+        }
+
     }
 }

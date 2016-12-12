@@ -26,11 +26,51 @@ namespace demo.Controllers
 
         public ActionResult Register()
         {
-            ViewData["username"] = "Tom";
-            ViewData["password"] = "123";
-            ViewBag.total = "10000";
+            List<Order> orders = new List<Order>();
+            Item item1 = new Item("item1", 10);
+            Item item2 = new Item("item2", 10);
+            Item item3 = new Item("item3", 10);
+            Item item4 = new Item("item4", 10);
+
+            List<Item> items1 = new List<Item>(), items2 = new List<Item>();
+            items1.Add(item1);
+            items1.Add(item2);
+            items2.Add(item3);
+            items2.Add(item4);
+
+
+            Order order1 = new Order(1, items1);
+            Order order2 = new Order(2, items2);
+
+            orders.Add(order1);
+            orders.Add(order2);
+            ViewBag.orders = orders;
             return View();
         }
 
+    }
+    public class Order
+    { 
+        public int orderId;
+        public List<Item> items;
+
+
+        public Order(int id, List<Item> items)
+        {
+            orderId = id;
+            this.items = items;
+        }
+
+    }
+
+    public class Item
+    {
+        public string itemName;
+        public float price;
+        public Item(string name, float price)
+        {
+            itemName = name;
+            this.price = price;
+        }
     }
 }

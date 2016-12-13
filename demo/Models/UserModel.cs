@@ -1,55 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace demo.Models
 {
-    public class UserModel
+    public class UserModel : DbContext
     {
-        private SqlConnection conn;
-        private SqlCommand com = new SqlCommand();
-        private SqlDataReader sdr = null;
+        public DbSet<User> Users {get; set;}
 
-        public UserModel()
+        public bool Authenticate(string username, string password)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["UserDBContext"].ConnectionString;
-            conn = new SqlConnection(connectionString);
-            try
-            {
-                if (conn.State.ToString() != "Open")
-                {
-                    conn.Open();
-                }
-            }
-            catch (SqlException ex)
-            {
-                throw ex;
-            }
+            var result = Users.Where(u => u.Username == username && u.Password == password).ToList();
+            if (result.Count < 1) return false;
+            else return true;
         }
 
-        public bool authenticate(string username, string password)
+        public List<User> GetAllUsers()
         {
-            string sql = "select password from [user] where username = @username";
-            com.CommandText = sql;
-            com.CommandType = CommandType.Text;
-            com.Connection = conn;
-            com.Parameters.Add("@username", SqlDbType.VarChar);
-            com.Parameters["@username"].Value = username;
-            sdr = com.ExecuteReader();
-            if (sdr.Read())
-            {
-                if (sdr["password"].Equals(password)) return true;
-                else return false;
-            }
-            else
-            {
-                return false;
-            }
+            return Users.ToList();
         }
+
+        public User GetUserByUsername(string username)
+        {
+            var result = Users.Where(u => u.Username == username).ToList();
+            if (result.Count > 0) return result[0];
+            else return null;
+        }
+
+        public bool AddUser(User user)
+        {
+            var result = GetUserByUsername(user.Username);
+            if (result != null) return false;
+            Users.Add(user);
+            SaveChanges();
+            return true;
+        }
+
+    }
+
+    [Table("USER", Schema = "dbo")]
+    public class User
+    {
+        public int UserId {get; set;}
+        public string Username {get; set;}
+        public string Password {get; set;}
+        public string Email {get; set;}
     }
 }

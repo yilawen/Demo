@@ -1,0 +1,75 @@
+html,body{
+    width: 100%;
+    height: 100%;
+}
+.login-content {
+    overflow: hidden;
+    text-align: center;
+}
+
+body {
+    font-weight: 400;
+    padding-top: 65px;
+    padding-bottom: 110px;
+    position: relative;
+}
+
+body.login-content:before {
+    height: 50%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #00bcd4;
+    content: "";
+    z-index: -22;
+}
+.login-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    border-bottom: 1px solid #e1e1e1;
+
+}
+.container{
+    width: 80%;
+    height: 100%;
+}
+.container:before{
+    content: "";
+    clear: both;
+}
+a.logo {
+    background: url(https://vipfile.weixiaoqu.com/vipstatic/images/logo2016.png) no-repeat;
+    width: 200px;
+    height: 60px;
+    position: relative;
+    margin-left: 50px;
+    float: left;
+    display: inline-block;
+
+}
+nav {
+    float: right;
+    /*clear: both;*/
+}
+nav ul li {
+    /*padding: 0 20px;*/
+    /*width: 60px;*/
+    /*height: 30px;*/
+    float: left;
+    list-style: none;
+   
+}
+nav ul li a {
+    /*padding: 0 20px;*/
+    font-size: 14px;
+    display: block;
+    /*padding: 15px;*/
+    color: #666;
+     text-decoration: none;
+}

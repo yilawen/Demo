@@ -8,6 +8,7 @@ $(document).ready(function(){
 	// },
 
 	// )
+	console.log(88)
 
 	$.ajax({
     method: 'post',

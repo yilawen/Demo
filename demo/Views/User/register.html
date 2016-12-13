@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charsHeyet="UTF-8">
+	<title>微小区</title>
+	<!-- <link rel="stylesheet" type="text/css" href="../../Content/css/bootstrap.css">
+	-->
+	<link rel="stylesheet" type="text/css" href="../../Content/css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="../../Content/css/common.css">
+	<link rel="stylesheet" type="text/css" href="../../Content/css/register.css">
+	<script src="../../Scripts/jquery.js"></script>
+
+</head>
+<body class="login-content">
+	<div class="login-header">
+		<div class="container">
+			<a href="http://www.weixiaoqu.com" class="logo"></a>
+			<nav>
+				<ul>
+					<li>
+						<a href="#">首页</a>
+					</li>
+					<li>
+						<a href="#">企业版</a>
+					</li>
+					<li>
+						<a href="#" target="_blank">服务商</a>
+					</li>
+					<li>
+						<a href="#" target="_blank">商家平台</a>
+					</li>
+					<li>
+						<a href="#">帮助</a>
+					</li>
+					<li>
+						<a href="#">博客</a>
+					</li>
+					<li>
+						<a href="#">我们</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+
+	<!-- register -->
+	<div class="register">
+		<form>
+			<div class="input-group phone">
+				<label> <i class="fa fa-envelope-o"></i>
+				</label>
+				<input type="email" name="username" id="username" class="form-control" placeholder="邮箱" autofocus="autofocus">
+				<span class="cz">用户已存在</span><span class="bd">邮箱格式不对</span></div>
+			<div class="input-group setPassword">
+				<label> <i class="fa fa-lock"></i>
+				</label>
+				<input type="password" name="password" id="password" min="6" max="12" class="form-control" placeholder="设置密码">
+				<span></span></div>
+			<div class="input-group rePassword">
+				<label>
+					<i class="fa fa-unlock-alt"></i>
+				</label>
+				<input type="password" name="uname" id="repassword" class="form-control" placeholder="确认密码"></div>
+			<div class="aggrement">
+				<input type="checkbox" name="" id="aggr" >
+				<p>
+					我同意《
+					<a href="">微小区服务使用协议</a>
+					》
+				</p>
+
+			</div>
+			<div>
+				<button disabled="true" id="btn" >
+					<span>立即注册</span>
+				</button>
+
+			</div>
+		</form>
+	</div>
+
+	<!-- <script src="../../Scripts/login.js"></script> -->
+	<script src="../../Scripts/common.js"></script>
+
+	<script type="text/javascript">
+	$(function(){
+
+		$("#aggr").click(function(){
+			if ($(this).is(":checked")) {
+				$("#btn").prop("disabled",false);
+				$("#btn").css("cursor","pointer");
+
+				$("#btn").click(function(){
+					$.ajax({
+						method: 'post',
+						url: getRootPath() + "/user/register",
+						dataType: 'json',
+						// 用户名和密码
+						data: {
+							username: $("#username").val(),
+							password: $("#password").val()
+						},
+						success: function(data) {
+								console.log(data);
+								// 假设后端传回的 1 表示成功， 0 表示用户名或密码错误
+								if (data) {
+									alert("验证通过");
+								} else {
+									alert("用户名或密码错误");
+								}
+						}
+					});
+				})
+				// $("#btn").css("background","green");
+			}
+			else{
+				$("#btn").prop("disabled",true);
+				$("#btn").css("cursor","auto");
+			}
+		})
+		// 验证用户名格式
+
+
+		$("#username").blur(function(){
+			var username = $("#username").val();
+			if (!isEmail(username)) {
+				$(".bd").show();
+				$("#username").focus();
+
+
+			}
+			else{
+				$(".bd").hide();
+				$("#password").focus();
+			}
+			function isEmail(num){
+			var szReg=/[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/;
+			return szReg.test(num);
+			}
+		})
+	})
+	</script>
+</body>
+</html>

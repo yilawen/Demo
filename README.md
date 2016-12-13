@@ -8,5 +8,5 @@
 Register.cshtml
 
 ##数据
-前端传入：`username`[require], `password`[require], email
+前端传入：`username`[require], `password`[require], email<br>
 后端返回：json格式 false true

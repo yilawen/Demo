@@ -1,0 +1,15 @@
+.register{
+	z-index: 10;
+}
+.phone span{
+	display: none;
+}
+.block{
+	display: block;
+}
+#aggr{
+	cursor: pointer;
+}
+#btn{
+	/*cursor: pointer;*/
+}

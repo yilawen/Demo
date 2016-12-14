@@ -11,11 +11,6 @@ namespace demo.Controllers
     {
         //
         // GET: /User/
-        private UserModel userModel;
-        public UserController()
-        {
-            userModel = new UserModel();
-        }
 
         public ActionResult Index()
         {
@@ -24,8 +19,18 @@ namespace demo.Controllers
 
         public JsonResult Login(string username, string password)
         {
-            bool result = userModel.Authenticate(username, password);
-            return Json(result, JsonRequestBehavior.DenyGet);
+            using (UserModel userModel = new UserModel())
+            {
+                bool result = userModel.Authenticate(username, password);
+                if (result) Session["user"] = userModel.GetUserByUsername(username);
+                return Json(result, JsonRequestBehavior.DenyGet);
+            }
+           
+        }
+
+        public void Logout()
+        {
+            Session.Abandon();
         }
 
         public ActionResult ShowRegister()
@@ -35,8 +40,18 @@ namespace demo.Controllers
 
         public JsonResult Register(User user)
         {
-            if (user.Username == null || user.Password == null) return Json(false);
-            return Json(userModel.AddUser(user), JsonRequestBehavior.DenyGet);
+            using (UserModel userModel = new UserModel())
+            {
+                if (user.Username == null || user.Password == null) return Json(false);
+                return Json(userModel.AddUser(user), JsonRequestBehavior.DenyGet);
+            }
+        }
+
+        public ActionResult UserDetail()
+        {
+            if (Session["user"] == null) return View("Login");
+            ViewBag.user = Session["user"];
+            return View();
         }
     }
 }

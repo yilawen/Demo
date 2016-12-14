@@ -1,0 +1,146 @@
+
+.lc-block:not(.lcb-alt) {
+    padding: 35px 55px 35px;
+}
+
+.lc-block {
+    background: #fff;
+    box-shadow: 0 1px 11px rgba(0,0,0,.27);
+    border-radius: 2px;
+    width: 500px;
+    display: inline-block;
+    padding: 35px 55px ;
+    margin-top: 80px;
+    vertical-align: middle;
+    position: relative;
+}
+.login-nav {
+    width: 90%;
+    height: 40px;
+    margin: 0 auto;
+    overflow: hidden;
+    line-height: 30px;
+}
+.msg-error {
+    width: 100%;
+    height: 33px;
+    display: block;
+    text-align: left;
+}
+.m-b-10 {
+    margin-bottom: 10px!important;
+}
+.fg-line{
+    padding: 0 8px;
+    /*position: relative;*/
+}
+.fg-line::after {
+    background:#0fb478;
+    position: absolute;
+    z-index: 3;
+    bottom: 0;
+    left: 10%;
+    height: 2px;
+    width: 0;
+    content: "";
+    -webkit-transition: all;
+    -o-transition: all;
+    transition: all;
+    -webkit-transition-duration: .3s;
+    transition-duration: 0.3s;
+}
+.fp::after{
+    width: 100%;
+
+}
+.input-group {
+
+    position: relative;
+    display: table;
+    border-collapse: separate;
+
+}
+.input-group label,.input-group input{
+    border-style:none;
+}
+.input-group input{
+    border-style:none;
+    border-bottom: 1px solid #ccc;
+    padding-left: 
+}
+
+.login-nav a {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 50%;
+    height: 100%;
+    color: #2196f3;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.login-nav a:hover{
+    color: #0a6ebd;
+}
+.three-login h4{
+    position: relative;
+}
+.three-login h4:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #e0e0e0;
+}
+.three-login h4:after {
+    content: '第三方登录';
+    padding: 0 15px;
+    position: relative;
+    top: 0;
+    background: #fff;
+    color: #666;
+    font-size: 14px;
+}
+.three-login ul {
+    list-style: none;
+    width: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 10px 0;
+}
+.three-login ul li {
+    width: 50%;
+    float: left;
+}
+.three-login ul li a {
+    /*background: */
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin: 0 auto;
+    border-radius: 50%;
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+.three-login ul li a i {
+    font-size: 23px;
+    margin: 13px auto;
+}
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.v-copy {
+    width: 100%;
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+}

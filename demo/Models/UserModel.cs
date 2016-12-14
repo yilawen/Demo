@@ -41,6 +41,16 @@ namespace demo.Models
             return true;
         }
 
+        public bool UpdateUser(User user)
+        {
+            User oldUser = Users.Where(u => u.Username == user.Username).First();
+            if (oldUser == null) return false;
+            oldUser.Email = "tset@tset";
+            Entry(oldUser).State = EntityState.Modified;
+            SaveChanges();
+            return true;
+        }
+
     }
 
     [Table("USER", Schema = "dbo")]

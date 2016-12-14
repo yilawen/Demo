@@ -1,0 +1,25 @@
+html,body{
+	width:100%;
+	height: 100%;
+}
+#header{
+	width: 100%;
+}
+.hLeft{
+	float: left;
+	height: 50px;
+	line-height: 50px;
+}
+.hRight{
+	float: right;
+
+}
+.loginin{
+	display: none;
+}
+
+nav#wxq-dashboard{
+	width: 80%;
+	margin:0 50px;
+	
+}

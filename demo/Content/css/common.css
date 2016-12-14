@@ -14,7 +14,7 @@ body {
     position: relative;
 }
 
-body.login-content:before {
+    body.login-content:before {
     height: 50%;
     width: 100%;
     position: absolute;
@@ -73,3 +73,4 @@ nav ul li a {
     color: #666;
      text-decoration: none;
 }
+    

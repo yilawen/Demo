@@ -32,6 +32,26 @@
 }
 .fg-line{
     padding: 0 8px;
+    /*position: relative;*/
+}
+.fg-line::after {
+    background:#0fb478;
+    position: absolute;
+    z-index: 3;
+    bottom: 0;
+    left: 10%;
+    height: 2px;
+    width: 0;
+    content: "";
+    -webkit-transition: all;
+    -o-transition: all;
+    transition: all;
+    -webkit-transition-duration: .3s;
+    transition-duration: 0.3s;
+}
+.fp::after{
+    width: 100%;
+
 }
 .input-group {
 

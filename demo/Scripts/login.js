@@ -12,8 +12,8 @@ $(document).ready(function() {
 	// 	$(this).closest(".fg-line").addClass(".fp")
 	// })
 
-
-	$.ajax({
+	$("#btn").click(function(){
+		$.ajax({
 		method: 'post',
 		url: getRootPath() + "/user/login",
 		dataType: 'json',
@@ -32,4 +32,6 @@ $(document).ready(function() {
 			}
 		}
 	});
+	})
+	
 })

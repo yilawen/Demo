@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using demo.Models;
+using demo.Filters;
 
 namespace demo.Controllers
 {
@@ -36,14 +37,14 @@ namespace demo.Controllers
             }
         }
 
-        [Filters.CheckUser]
+        [CheckUser]
         public RedirectToRouteResult Logout()
         {
             Session.Abandon();
             return RedirectToAction("Index", "Home");
         }
 
-        [Filters.CheckUser]
+        [CheckUser]
         public ActionResult UserManage()
         {
             using (UserModel userModel = new UserModel())
@@ -53,7 +54,7 @@ namespace demo.Controllers
             }
         }
 
-        [Filters.CheckUser]
+        [CheckUser]
         public JsonResult AddUser(User user)
         {
             using (UserModel userModel = new UserModel())

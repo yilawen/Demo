@@ -36,10 +36,38 @@ namespace demo.Controllers
             }
         }
 
+        [Filters.CheckUser]
         public RedirectToRouteResult Logout()
         {
             Session.Abandon();
             return RedirectToAction("Index", "Home");
+        }
+
+        [Filters.CheckUser]
+        public ActionResult UserManage()
+        {
+            using (UserModel userModel = new UserModel())
+            {
+                ViewBag.users = userModel.GetAllUsers();
+                return View("UserManage");
+            }
+        }
+
+        [Filters.CheckUser]
+        public JsonResult AddUser(User user)
+        {
+            using (UserModel userModel = new UserModel())
+            {
+                Dictionary<string, string> result = new Dictionary<string,string>();
+                if (!userModel.AddUser(user))
+                {
+                    result.Add("status", "false");
+                    result.Add("message", "已存在的昵称或用户名");
+                } else {
+                    result.Add("status", "true");
+                }
+                return Json(result, JsonRequestBehavior.DenyGet);
+            }
         }
     }
 }

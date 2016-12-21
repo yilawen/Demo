@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Web.Security;
 using demo.Utility;
 
 namespace demo.Models
@@ -15,7 +14,7 @@ namespace demo.Models
 
         public bool Authenticate(string username, string password)
         {
-            password = FormsAuthentication.HashPasswordForStoringInConfigFile(password, "MD5").ToLower();
+            password = Helper.MD5(password.Trim());
             var result = Users.Where(u => u.Username == username && u.Password == password).Select(u => u.Username).FirstOrDefault();
             if (result == null) return false;
             else return true;
@@ -38,7 +37,7 @@ namespace demo.Models
             var result = GetUserByUsernameOrNickname(user.Username, user.NickName);
             if (result != null) return false;
             user.Id = Guid.NewGuid().ToString();
-            user.Password = FormsAuthentication.HashPasswordForStoringInConfigFile(user.Password.Trim(), "MD5").ToLower();
+            user.Password = Helper.MD5(user.Password.Trim());
             user.LastLoginDate = new DateTime(1990, 1, 1);
             user.RoleGrade = (int)Role.General;
             Users.Add(user);
@@ -50,10 +49,20 @@ namespace demo.Models
         {
             Users.Attach(user);
             var entry = Entry(user);
+            if (properties.Contains("Password")) {
+                user.Password = Helper.MD5(user.Password.Trim());
+            }
             foreach (var propertyName in properties)
             {
                 entry.Property(propertyName).IsModified = true;
             }
+            SaveChanges();
+        }
+
+        public void DeleteUser(string username)
+        {
+            User user = Users.Where(u => u.Username == username).FirstOrDefault();
+            Users.Remove(user);
             SaveChanges();
         }
 

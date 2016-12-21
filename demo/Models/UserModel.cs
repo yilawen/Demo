@@ -5,6 +5,7 @@ using System.Web;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Security;
+using demo.Utility;
 
 namespace demo.Models
 {
@@ -26,12 +27,20 @@ namespace demo.Models
             return result;
         }
 
+        public User GetUserByUsernameOrNickname(string username, string nickname)
+        {
+            var result = Users.Where(u => u.Username == username || u.NickName == nickname).FirstOrDefault();
+            return result;
+        }
+
         public bool AddUser(User user)
-        { 
-            var result = GetUserByUsername(user.Username);
+        {
+            var result = GetUserByUsernameOrNickname(user.Username, user.NickName);
             if (result != null) return false;
             user.Id = Guid.NewGuid().ToString();
-            user.Password = FormsAuthentication.HashPasswordForStoringInConfigFile(user.Password, "MD5").ToLower();
+            user.Password = FormsAuthentication.HashPasswordForStoringInConfigFile(user.Password.Trim(), "MD5").ToLower();
+            user.LastLoginDate = new DateTime(1990, 1, 1);
+            user.RoleGrade = (int)Role.General;
             Users.Add(user);
             SaveChanges();
             return true; 
@@ -46,6 +55,11 @@ namespace demo.Models
                 entry.Property(propertyName).IsModified = true;
             }
             SaveChanges();
+        }
+
+        public List<User> GetAllUsers()
+        {
+            return Users.ToList<User>();
         }
     }
 

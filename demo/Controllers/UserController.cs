@@ -123,7 +123,11 @@ namespace demo.Controllers
         [CheckUser]
         public ActionResult Notice()
         {
-            return View("Index");
+            using (MenuModel menuModel = new MenuModel())
+            {
+                ViewBag.menus = menuModel.GetMenusByUserId(((User)Session["user"]).Id);
+                return View("Index");
+            }
         }
     }
 }

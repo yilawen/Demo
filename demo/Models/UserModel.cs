@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
-using demo.Utility;
+using demo.Utilities;
 
 namespace demo.Models
 {

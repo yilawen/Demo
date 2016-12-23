@@ -109,8 +109,6 @@
                     Password: $("#txtPassword").val()
                 },
                 success: function (data) {
-                    console.log(data);
-                    // 假设后端传回的 1 表示成功， 0 表示用户名或密码错误
                     if (data) {
                         window.location.href = getRootPath() + "/user/notice";
                     } else {

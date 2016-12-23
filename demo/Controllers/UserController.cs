@@ -48,7 +48,7 @@ namespace demo.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
+        [CheckUser]
         public ActionResult UserManage()
         {
             using (UserModel userModel = new UserModel())
@@ -58,6 +58,7 @@ namespace demo.Controllers
             }
         }
 
+        [CheckUser]
         public JsonResult GetUsers()
         {
             using (UserModel userModel = new UserModel())
@@ -66,6 +67,8 @@ namespace demo.Controllers
             }
         }
 
+        [HttpPost]
+        [CheckUser]
         public JsonResult AddUser(User user)
         {
             using (UserModel userModel = new UserModel())
@@ -83,6 +86,7 @@ namespace demo.Controllers
         }
 
         [HttpPost]
+        [CheckUser]
         public JsonResult UpdateUserInfo()
         {
             string userJson = Request.Form["user"];
@@ -106,6 +110,7 @@ namespace demo.Controllers
         }
 
         [HttpPost]
+        [CheckUser]
         public JsonResult DeleteUser(string username)
         {
             using(UserModel userModel = new UserModel())
@@ -115,10 +120,10 @@ namespace demo.Controllers
             }
         }
 
-        public void test()
+        [CheckUser]
+        public ActionResult Notice()
         {
-            UserModel db = new UserModel();
-            var result = db.GetUsers(10, 1);
+            return View("UserManage");
         }
     }
 }

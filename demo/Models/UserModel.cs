@@ -22,31 +22,33 @@ namespace demo.Models
 
         public User GetUserByUsername(string username)
         {
+            if (string.IsNullOrEmpty(username)) return null;
             var result = Users.Where(u => u.Username == username).FirstOrDefault();
             return result;
         }
 
-        public User GetUserByUsernameOrNickname(string username, string nickname)
+        public User GetUserByNickname(string nickname)
         {
-            var result = Users.Where(u => u.Username == username || u.NickName == nickname).FirstOrDefault();
+            if(string.IsNullOrEmpty(nickname)) return null;
+            var result = Users.Where(u => u.Nickname == nickname).FirstOrDefault();
             return result;
         }
 
-        public bool AddUser(User user)
+        public void AddUser(User user)
         {
-            var result = GetUserByUsernameOrNickname(user.Username, user.NickName);
-            if (result != null) return false;
             user.Id = Guid.NewGuid().ToString();
+            if (!string.IsNullOrEmpty(user.Nickname)) user.Nickname = user.Nickname.Trim();
+            user.Username = user.Username.Trim();
             user.Password = Helper.MD5(user.Password.Trim());
             user.LastLoginDate = new DateTime(1990, 1, 1);
             user.RoleGrade = (int)Role.General;
             Users.Add(user);
             SaveChanges();
-            return true; 
         }
 
         public void UpdateUser(User user, string[] properties)
         {
+            if (!string.IsNullOrEmpty(user.Nickname)) user.Nickname = user.Nickname.Trim();
             Users.Attach(user);
             var entry = Entry(user);
             if (properties.Contains("Password")) {
@@ -54,7 +56,7 @@ namespace demo.Models
             }
             foreach (var propertyName in properties)
             {
-                entry.Property(propertyName).IsModified = true;
+                entry.Property(propertyName.ToString()).IsModified = true;
             }
             SaveChanges();
         }
@@ -70,6 +72,11 @@ namespace demo.Models
         {
             return Users.ToList<User>();
         }
+
+        public List<User> GetUsers(int amount, int start)
+        {
+            return Users.OrderBy(u => u.Id).Skip(start).Take(amount).ToList();
+        }
     }
 
     [Table("Users", Schema = "dbo")]
@@ -77,7 +84,7 @@ namespace demo.Models
     {
         public string Id { get; set; } //生成Guid字符串
         public string Username { get; set; }
-        public string NickName { get; set; }
+        public string Nickname { get; set; }
         public string Password { get; set; }
         public string LastLoginIP { get; set; }
         public DateTime? LastLoginDate { get; set; }

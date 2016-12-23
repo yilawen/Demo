@@ -21,7 +21,7 @@ namespace demo.Controllers
         {
             if (Session["user"] != null) {
                 ViewBag.user = Session["user"];
-                return View("index");
+                return View("Index");
             } else return View("Login");
         }
 
@@ -33,7 +33,7 @@ namespace demo.Controllers
                 if (result) {
                     var user = userModel.GetUserByUsername(username);
                     user.LastLoginDate = System.DateTime.Now;
-                    user.LastLoginIP = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                    user.LastLoginIP = Request.ServerVariables["REMOTE_ADDR"];
                     Session["user"] = user;
                     userModel.UpdateUser(user, new string[]{"LastLoginDate", "LastLoginIP"});
                 }
@@ -123,7 +123,7 @@ namespace demo.Controllers
         [CheckUser]
         public ActionResult Notice()
         {
-            return View("UserManage");
+            return View("Index");
         }
     }
 }

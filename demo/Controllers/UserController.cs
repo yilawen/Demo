@@ -5,6 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using demo.Models;
 using demo.Filters;
+using System.IO;
+using Newtonsoft.Json;
+using System.Text;
+using System.Web.Script.Serialization;
 
 namespace demo.Controllers
 {
@@ -55,20 +59,71 @@ namespace demo.Controllers
         }
 
         [CheckUser]
+        public JsonResult GetUsers()
+        {
+            using (UserModel userModel = new UserModel())
+            {
+                return Json(userModel.GetAllUsers());
+            }
+        }
+
+        [HttpPost]
+        [CheckUser]
         public JsonResult AddUser(User user)
         {
             using (UserModel userModel = new UserModel())
             {
                 Dictionary<string, string> result = new Dictionary<string,string>();
-                if (!userModel.AddUser(user))
-                {
+                if (userModel.GetUserByUsername(user.Username) != null || userModel.GetUserByNickname(user.Nickname) != null) {
                     result.Add("status", "false");
                     result.Add("message", "已存在的昵称或用户名");
                 } else {
+                    userModel.AddUser(user);
                     result.Add("status", "true");
                 }
                 return Json(result, JsonRequestBehavior.DenyGet);
             }
+        }
+
+        [HttpPost]
+        [CheckUser]
+        public JsonResult UpdateUserInfo()
+        {
+            string userJson = Request.Form["user"];
+            string propertiesStr = Request.Form["properties"];
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var json = serializer.Deserialize<dynamic>(userJson);
+            string[] properties = propertiesStr.Split(',');
+            Dictionary<string, string> result = new Dictionary<string, string>();
+            User user = new User() { Id = json["Id"], Password = json["Password"], Nickname = json["Nickname"], Status = Convert.ToInt32(json["Status"]) };
+            using (UserModel userModel = new UserModel())
+            {
+                if (properties.Contains("Nickname") && userModel.GetUserByNickname(user.Nickname) != null) {
+                    result.Add("status", "false");
+                    result.Add("message", "已存在的昵称");
+                } else {
+                    userModel.UpdateUser(user, properties);
+                    result.Add("status", "true");
+                }
+                return Json(result, JsonRequestBehavior.DenyGet);
+            }
+        }
+
+        [HttpPost]
+        [CheckUser]
+        public JsonResult DeleteUser(string username)
+        {
+            using(UserModel userModel = new UserModel())
+            {
+                userModel.DeleteUser(username);
+                return Json(true);
+            }
+        }
+
+        [CheckUser]
+        public ActionResult Notice()
+        {
+            return View("UserManage");
         }
     }
 }

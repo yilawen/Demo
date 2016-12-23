@@ -129,10 +129,65 @@
     </Compile>
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\Helper.cs" />
     <Compile Include="Utility\Role.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\easyui.css" />
+    <Content Include="Content\css\icon.css" />
+    <Content Include="Content\css\icons\back.png" />
+    <Content Include="Content\css\icons\blank.gif" />
+    <Content Include="Content\css\icons\cancel.png" />
+    <Content Include="Content\css\icons\clear.png" />
+    <Content Include="Content\css\icons\cut.png" />
+    <Content Include="Content\css\icons\edit_add.png" />
+    <Content Include="Content\css\icons\edit_remove.png" />
+    <Content Include="Content\css\icons\filesave.png" />
+    <Content Include="Content\css\icons\filter.png" />
+    <Content Include="Content\css\icons\help.png" />
+    <Content Include="Content\css\icons\large_chart.png" />
+    <Content Include="Content\css\icons\large_clipart.png" />
+    <Content Include="Content\css\icons\large_picture.png" />
+    <Content Include="Content\css\icons\large_shapes.png" />
+    <Content Include="Content\css\icons\large_smartart.png" />
+    <Content Include="Content\css\icons\lock.png" />
+    <Content Include="Content\css\icons\man.png" />
+    <Content Include="Content\css\icons\mini_add.png" />
+    <Content Include="Content\css\icons\mini_edit.png" />
+    <Content Include="Content\css\icons\mini_refresh.png" />
+    <Content Include="Content\css\icons\more.png" />
+    <Content Include="Content\css\icons\no.png" />
+    <Content Include="Content\css\icons\ok.png" />
+    <Content Include="Content\css\icons\pencil.png" />
+    <Content Include="Content\css\icons\print.png" />
+    <Content Include="Content\css\icons\redo.png" />
+    <Content Include="Content\css\icons\reload.png" />
+    <Content Include="Content\css\icons\search.png" />
+    <Content Include="Content\css\icons\sum.png" />
+    <Content Include="Content\css\icons\tip.png" />
+    <Content Include="Content\css\icons\undo.png" />
+    <Content Include="Content\css\images\accordion_arrows.png" />
+    <Content Include="Content\css\images\blank.gif" />
+    <Content Include="Content\css\images\calendar_arrows.png" />
+    <Content Include="Content\css\images\combo_arrow.png" />
+    <Content Include="Content\css\images\datagrid_icons.png" />
+    <Content Include="Content\css\images\datebox_arrow.png" />
+    <Content Include="Content\css\images\layout_arrows.png" />
+    <Content Include="Content\css\images\linkbutton_bg.png" />
+    <Content Include="Content\css\images\loading.gif" />
+    <Content Include="Content\css\images\menu_arrows.png" />
+    <Content Include="Content\css\images\messager_icons.png" />
+    <Content Include="Content\css\images\pagination_icons.png" />
+    <Content Include="Content\css\images\panel_tools.png" />
+    <Content Include="Content\css\images\passwordbox_close.png" />
+    <Content Include="Content\css\images\passwordbox_open.png" />
+    <Content Include="Content\css\images\searchbox_button.png" />
+    <Content Include="Content\css\images\slider_handle.png" />
+    <Content Include="Content\css\images\spinner_arrows.png" />
+    <Content Include="Content\css\images\tabs_icons.png" />
+    <Content Include="Content\css\images\tree_icons.png" />
+    <Content Include="Content\css\images\validatebox_warning.png" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\image\footBg.jpg" />
     <Content Include="Content\image\headBg.jpg" />
@@ -141,7 +196,11 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\common.js" />
+    <Content Include="Scripts\easyui-lang-zh_CN.js" />
+    <Content Include="Scripts\jquery.easyui.min.js" />
     <Content Include="Scripts\jquery.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\messages_zh.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -167,6 +226,7 @@
     <None Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <None Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\User\UserManage.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

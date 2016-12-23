@@ -1,0 +1,269 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>用户管理</title>
+    <link rel="stylesheet" type="text/css" href="@Href("~/")Content/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="@Href("~/")Content/css/easyui.css">
+    <link rel="stylesheet" type="text/css" href="@Href("~/")Content/css/icon.css">
+    <style type="text/css">
+        #users-table td, #users-table th {
+            text-align: center;
+        }
+
+        #modal-table {
+
+        }
+    </style>
+</head>
+<body>
+    <table id="dg"></table>
+<!-- modal -->
+<div id="user_modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">
+                  <span aria-hidden="true">&times;</span>
+                  <span class="sr-only">Close</span>
+              </button>
+              <h4 id="modal_title" class="modal-title"></h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal" role="form" id="info_form">
+                <div class="form-group">
+                    <label for="nickname" class="col-sm-2 control-label">用户昵称</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="nickname" name="nickname">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="username" class="col-sm-2 control-label">登录账号</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="username" name="username" disabled="disabled">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-sm-2 control-label">登录密码</label>
+                    <div class="col-sm-8">
+                        <input type="password" class="form-control" name="password" id="password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ack_password" class="col-sm-2 control-label">确认密码</label>
+                    <div class="col-sm-8">
+                        <input type="password" class="form-control" name="ack_password" id="ack_password">
+                    </div>
+                </div>
+                <div class="checkbox col-sm-offset-2">
+                    <label>
+                        <input type="checkbox" id="status" name="status" value="1"> 启用
+                    </label>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button id="user-save" type="button" class="btn btn-primary">保存</button>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script type="text/javascript" src="@Href("~/")Scripts/jquery.js"></script>
+<script type="text/javascript" src="@Href("~/")Scripts/common.js"></script>
+<script type="text/javascript" src="@Href("~/")Scripts/bootstrap.js"></script>
+<script type="text/javascript" src="@Href("~/")Scripts/jquery.easyui.min.js"></script>
+<script type="text/javascript">
+    var root = getRootPath();
+    $(function() {
+        var usernameBox = $("#username");
+        var nicknameBox = $("#nickname");
+        var passwordBox = $("#password");
+        var ackPasswordBox = $("#ack_password");
+        var statusBox = $("#status");
+        var userModal = $("#user_modal");
+        var modalTitle = $("#modal_title");
+        var dg = $("#dg");
+        var infoForm = $("#info_form");
+        var selectedRow = null;
+
+        statusBox.on("click", function() {
+            if($(this).prop("checked")) $(this).val("1");
+            else $(this).val("0");
+        });
+
+        $('#dg').datagrid({
+            url: root + '/User/GetUsers',
+            singleSelect: true,
+            columns:[[
+                {field:'Id',checkbox:true,width:100},
+                {field:'Username',title:'用户名',width:100},
+                {field:'Nickname',title:'昵称',width:100},
+                {field:'LastLoginDate',title:'最后登录时间',width:300,formatter: function(value,row,index) {
+                    var dateSource = value.replace("/Date(","").replace(")/","");
+                    return getDate(parseInt(dateSource));
+                }},
+                {field:'LastLoginIP',title:'最后登录IP',width:100},
+                {field:'Status',title:'状态',width:100, formatter: function(value,row,index) {
+                    if(value) return "启用";
+                    else return "禁用";
+                }},
+            ]],
+            toolbar: [
+                {
+                    iconCls:'icon-add',
+                    text: '新增',
+                    handler: function() {
+                        usernameBox.val("");
+                        nicknameBox.val("");
+                        passwordBox.val("");
+                        ackPasswordBox.val("");
+                        statusBox.prop("checked", true);
+                        statusBox.val("1");
+                        usernameBox.prop("disabled", false);
+                        userModal.modal("show");
+                        modalTitle.text("新增用户");
+                    }
+                },'-',
+                {
+                    iconCls:'icon-edit',
+                    text: '编辑',
+                    handler: function() {
+                        selectedRow = dg.datagrid("getSelected");
+                        if(!selectedRow) {
+                            alert("请先选择某个用户！");
+                            return;
+                        }
+                        passwordBox.val("");
+                        ackPasswordBox.val("");
+                        nicknameBox.val(selectedRow.Nickname);
+                        usernameBox.val(selectedRow.Username);
+                        if(selectedRow.Status) {
+                            statusBox.prop("checked", true);
+                            statusBox.val("1");
+                        }
+                        else {
+                            statusBox.prop("checked", false);
+                            statusBox.val("0");
+                        }
+                        usernameBox.prop("disabled", true);
+                        modalTitle.text("修改用户");
+                        userModal.modal("show");
+                    }
+                },'-',
+                {
+                    iconCls:'icon-remove',
+                    text: '权限管理',
+                    handler: function() {
+                        alert('edit');
+                    }
+                },'-',
+                {
+                    iconCls:'icon-cut',
+                    text: '删除',
+                    handler: function() {
+                        selectedRow = dg.datagrid("getSelected");
+                        if(!selectedRow) {
+                            alert("请先选择某个用户！");
+                            return;
+                        }
+                        if(window.confirm("确定要删除用户吗？")) {
+                            $.ajax({
+                                url: root + "/User/DeleteUser",
+                                type: "post",
+                                dataType: "json",
+                                data: {
+                                    username: selectedRow.Username
+                                },
+                                success: function(result) {
+                                    if(result) dg.datagrid("reload");
+                                },
+                                error: function() {
+                                    alert("服务器出错");
+                                }
+                            })
+                        }
+                    }
+                }
+            ]
+        });
+
+        $("#user-save").on("click", function() {
+            if(usernameBox.prop("disabled")) {
+                if(passwordBox.val() != ackPasswordBox.val()) {
+                    alert("密码不一致！");
+                    return;
+                }
+                var properties = new Array();
+                if(nicknameBox.val() != selectedRow.Nickname) properties.push("Nickname");
+                if(statusBox.val() != selectedRow.Status) properties.push("Status");
+                if(passwordBox.val()) properties.push("Password");
+                if(properties.length == 0) {
+                    userModal.modal('hide')
+                    return;
+                }
+                console.log(statusBox.val());
+                $.ajax({
+                    url: root + "/User/UpdateUserInfo",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        user:JSON.stringify({
+                            Id: selectedRow.Id,
+                            Nickname: nicknameBox.val(),
+                            Password: passwordBox.val(),
+                            Status: statusBox.val()
+                        }),
+                        properties: properties.toString()
+                    },
+                    success: function(result) {
+                        if(result.status == "true") {
+                            alert("修改成功!");
+                            userModal.modal("hide");
+                            dg.datagrid("reload");
+                        }
+                        else alert(result.message);
+                    },
+                    error: function() {
+                        alert("服务器出错");
+                    }
+                });
+            } else {
+                if(!usernameBox.val() || !nicknameBox.val() || !passwordBox.val()) {
+                    alert("请先完善信息！");
+                    return;
+                }
+                if(passwordBox.val() != ackPasswordBox.val()) {
+                    alert("密码不一致！");
+                    return;
+                }
+                $.ajax({
+                    url: root + "/User/AddUser",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        Username: usernameBox.val(),
+                        Nickname: nicknameBox.val(),
+                        Password: passwordBox.val(),
+                        Status: statusBox.val()
+                    },
+                    success: function(result) {
+                        if(result.status == "true") {
+                            alert("增加成功！");
+                            userModal.modal("hide");
+                            dg.datagrid("reload");
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function() {
+                        alert("服务器出错");
+                    }
+                })
+            }
+        });
+    })
+</script>
+</body>
+</html>

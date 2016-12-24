@@ -21,7 +21,8 @@ namespace demo.Utilities
             {
                 if (menus[i].ParentId == 0)
                 {
-                    parentMenus.Add(menus[i].Id, new { MenuName = menus[i].MenuName, Children = new List<dynamic>() });
+                    //parentMenus.Add(menus[i].Id, new { MenuName = menus[i].MenuName, Children = new List<dynamic>() });
+                    parentMenus.Add(menus[i].Id, Tuple.Create(menus[i].MenuName, new List<dynamic>()));
                     menus.Remove(menus[i]);
                 }
             }
@@ -30,7 +31,7 @@ namespace demo.Utilities
             {
                 if (parentMenus.ContainsKey(menu.ParentId))
                 {
-                    parentMenus[menu.ParentId].Children.Add(new { MenuName = menu.MenuName, LinkUrl = menu.LinkUrl });
+                    parentMenus[menu.ParentId].Item2.Add(Tuple.Create( menu.MenuName, menu.LinkUrl));
                 }
             }
             return parentMenus.Values;

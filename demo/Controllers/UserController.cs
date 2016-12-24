@@ -122,10 +122,11 @@ namespace demo.Controllers
 
         [CheckUser]
         public ActionResult Notice()
-        {
+        { 
             using (MenuModel menuModel = new MenuModel())
             {
-                ViewBag.menus = menuModel.GetMenusByUserId(((User)Session["user"]).Id);
+                List<Menu> menus = menuModel.GetMenusByUserId(((User)Session["user"]).Id);
+                ViewBag.menus = Utilities.Helper.MenusFormat(menus);
                 return View("Index");
             }
         }

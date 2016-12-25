@@ -93,9 +93,9 @@ namespace demo.Controllers
             string userJson = Request.Form["user"];
             string propertiesStr = Request.Form["properties"];
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var json = serializer.Deserialize<dynamic>(userJson);
+            var json = serializer.Deserialize<Dictionary<string, string>>(userJson);
             string[] properties = propertiesStr.Split(',');
-            Dictionary<string, dynamic> result = new Dictionary<string, dynamic>();
+            Dictionary<string, object> result = new Dictionary<string, object>();
             User user = new User() { Id = json["Id"], Password = json["Password"], Nickname = json["Nickname"], Status = Convert.ToInt32(json["Status"]) };
             using (UserDBContext userModel = new UserDBContext())
             {

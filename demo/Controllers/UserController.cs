@@ -95,12 +95,12 @@ namespace demo.Controllers
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             var json = serializer.Deserialize<dynamic>(userJson);
             string[] properties = propertiesStr.Split(',');
-            Dictionary<string, string> result = new Dictionary<string, string>();
+            Dictionary<string, dynamic> result = new Dictionary<string, dynamic>();
             User user = new User() { Id = json["Id"], Password = json["Password"], Nickname = json["Nickname"], Status = Convert.ToInt32(json["Status"]) };
             using (UserDBContext userModel = new UserDBContext())
             {
                 if (properties.Contains("Nickname") && userModel.GetUserByNickname(user.Nickname) != null) {
-                    result.Add("status", "false");
+                    result.Add("status", false);
                     result.Add("message", "已存在的昵称");
                 } else {
                     userModel.UpdateUser(user, properties);

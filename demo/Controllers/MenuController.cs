@@ -17,15 +17,5 @@ namespace demo.Controllers
         {
             return View();
         }
-
-        public JsonResult GetMenus(string userId)
-        {
-            using (MenuDBContext menuModel = new MenuDBContext())
-            {
-                List<Menu> menus = menuModel.GetMenusByUserId(userId);
-                return Json(Utilities.Helper.MenusFormat(menus));
-            }
-        }
-
     }
 }

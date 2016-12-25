@@ -218,7 +218,7 @@
                         properties: properties.toString()
                     },
                     success: function(result) {
-                        if(result.status == "true") {
+                        if(result.status) {
                             alert("修改成功!");
                             userModal.modal("hide");
                             dg.datagrid("reload");
@@ -249,7 +249,7 @@
                         Status: statusBox.val()
                     },
                     success: function(result) {
-                        if(result.status == "true") {
+                        if(result.status) {
                             alert("增加成功！");
                             userModal.modal("hide");
                             dg.datagrid("reload");

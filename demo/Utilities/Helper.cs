@@ -15,27 +15,33 @@ namespace demo.Utilities
             return FormsAuthentication.HashPasswordForStoringInConfigFile(str, "MD5").ToLower();
         }
 
-        public static dynamic MenusFormat(List<Menu> menus)
+        public static List<Dictionary<string, object>> MenusFormat(List<Menu> menus)
         {
-            Dictionary<int, dynamic> parentMenus = new Dictionary<int,dynamic>();
-            for (int i = 0; i < menus.Count(); i++ )
+            if (menus.Count() == 0) return null;
+            List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
+            menus.ForEach(menu =>
             {
-                if (menus[i].ParentId == 0)
+                if (menu.ParentId == 0)
                 {
-                    //parentMenus.Add(menus[i].Id, new { MenuName = menus[i].MenuName, Children = new List<dynamic>() });
-                    parentMenus.Add(menus[i].Id, Tuple.Create(menus[i].MenuName, new List<dynamic>()));
-                    menus.Remove(menus[i]);
+                    Dictionary<string, object> menuParent = new Dictionary<string, object>();
+                    menuParent.Add("Id", menu.Id);
+                    menuParent.Add("MenuName", menu.MenuName);
+                    menuParent.Add("Children", new List<Dictionary<string, string>>());
+                    result.Add(menuParent);
                 }
-            }
-
-            foreach (var menu in menus)
+            });
+            menus.ForEach(menu =>
             {
-                if (parentMenus.ContainsKey(menu.ParentId))
+                int index = result.FindIndex(mP => Convert.ToInt32(mP["Id"]) == menu.ParentId);
+                if (index != -1)
                 {
-                    parentMenus[menu.ParentId].Item2.Add(Tuple.Create( menu.MenuName, menu.LinkUrl));
+                    Dictionary<string, string> menuChild = new Dictionary<string, string>();
+                    menuChild.Add("MenuName", menu.MenuName);
+                    menuChild.Add("LinkUrl", menu.LinkUrl);
+                    ((List<Dictionary<string, string>>)result[index]["Children"]).Add(menuChild);
                 }
-            }
-            return parentMenus.Values;
+            });
+            return result;
         }
     }
 }

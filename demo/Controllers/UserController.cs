@@ -93,14 +93,14 @@ namespace demo.Controllers
             string userJson = Request.Form["user"];
             string propertiesStr = Request.Form["properties"];
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var json = serializer.Deserialize<dynamic>(userJson);
+            var json = serializer.Deserialize<Dictionary<string, string>>(userJson);
             string[] properties = propertiesStr.Split(',');
-            Dictionary<string, string> result = new Dictionary<string, string>();
+            Dictionary<string, object> result = new Dictionary<string, object>();
             User user = new User() { Id = json["Id"], Password = json["Password"], Nickname = json["Nickname"], Status = Convert.ToInt32(json["Status"]) };
             using (UserDBContext userModel = new UserDBContext())
             {
                 if (properties.Contains("Nickname") && userModel.GetUserByNickname(user.Nickname) != null) {
-                    result.Add("status", "false");
+                    result.Add("status", false);
                     result.Add("message", "已存在的昵称");
                 } else {
                     userModel.UpdateUser(user, properties);

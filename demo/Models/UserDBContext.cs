@@ -5,10 +5,11 @@ using System.Web;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
 using demo.Utilities;
+using demo.Utilities.Entities;
 
 namespace demo.Models
 {
-    public class UserModel : DbContext
+    public class UserDBContext : DbContext
     {
         public DbSet<User> Users { get; set; }
 
@@ -77,18 +78,5 @@ namespace demo.Models
         {
             return Users.OrderBy(u => u.Id).Skip(start).Take(amount).ToList();
         }
-    }
-
-    [Table("Users", Schema = "dbo")]
-    public class User
-    {
-        public string Id { get; set; } //生成Guid字符串
-        public string Username { get; set; }
-        public string Nickname { get; set; }
-        public string Password { get; set; }
-        public string LastLoginIP { get; set; }
-        public DateTime? LastLoginDate { get; set; }
-        public int RoleGrade { get; set; }
-        public int Status { get; set; }
     }
 }

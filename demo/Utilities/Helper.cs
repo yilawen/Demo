@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Security;
 using demo.Models;
+using demo.Utilities.Entities;
 
 namespace demo.Utilities
 {

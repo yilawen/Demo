@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using demo.Models;
+using demo.Utilities.Entities;
 
 namespace demo.Controllers
 {
@@ -19,7 +20,7 @@ namespace demo.Controllers
 
         public JsonResult GetMenus(string userId)
         {
-            using (MenuModel menuModel = new MenuModel())
+            using (MenuDBContext menuModel = new MenuDBContext())
             {
                 List<Menu> menus = menuModel.GetMenusByUserId(userId);
                 return Json(Utilities.Helper.MenusFormat(menus));

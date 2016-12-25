@@ -9,6 +9,7 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Text;
 using System.Web.Script.Serialization;
+using demo.Utilities.Entities;
 
 namespace demo.Controllers
 {
@@ -27,7 +28,7 @@ namespace demo.Controllers
 
         public JsonResult Login(string username, string password)
         {
-            using (UserModel userModel = new UserModel())
+            using (UserDBContext userModel = new UserDBContext())
             {
                 bool result = userModel.Authenticate(username, password);
                 if (result) {
@@ -51,7 +52,7 @@ namespace demo.Controllers
         [CheckUser]
         public ActionResult UserManage()
         {
-            using (UserModel userModel = new UserModel())
+            using (UserDBContext userModel = new UserDBContext())
             {
                 ViewBag.users = userModel.GetAllUsers();
                 return View("UserManage");
@@ -61,7 +62,7 @@ namespace demo.Controllers
         [CheckUser]
         public JsonResult GetUsers()
         {
-            using (UserModel userModel = new UserModel())
+            using (UserDBContext userModel = new UserDBContext())
             {
                 return Json(userModel.GetAllUsers());
             }
@@ -71,7 +72,7 @@ namespace demo.Controllers
         [CheckUser]
         public JsonResult AddUser(User user)
         {
-            using (UserModel userModel = new UserModel())
+            using (UserDBContext userModel = new UserDBContext())
             {
                 Dictionary<string, string> result = new Dictionary<string,string>();
                 if (userModel.GetUserByUsername(user.Username) != null || userModel.GetUserByNickname(user.Nickname) != null) {
@@ -96,7 +97,7 @@ namespace demo.Controllers
             string[] properties = propertiesStr.Split(',');
             Dictionary<string, string> result = new Dictionary<string, string>();
             User user = new User() { Id = json["Id"], Password = json["Password"], Nickname = json["Nickname"], Status = Convert.ToInt32(json["Status"]) };
-            using (UserModel userModel = new UserModel())
+            using (UserDBContext userModel = new UserDBContext())
             {
                 if (properties.Contains("Nickname") && userModel.GetUserByNickname(user.Nickname) != null) {
                     result.Add("status", "false");
@@ -113,7 +114,7 @@ namespace demo.Controllers
         [CheckUser]
         public JsonResult DeleteUser(string username)
         {
-            using(UserModel userModel = new UserModel())
+            using(UserDBContext userModel = new UserDBContext())
             {
                 userModel.DeleteUser(username);
                 return Json(true);
@@ -123,7 +124,7 @@ namespace demo.Controllers
         [CheckUser]
         public ActionResult Notice()
         { 
-            using (MenuModel menuModel = new MenuModel())
+            using (MenuDBContext menuModel = new MenuDBContext())
             {
                 List<Menu> menus = menuModel.GetMenusByUserId(((User)Session["user"]).Id);
                 ViewBag.menus = Utilities.Helper.MenusFormat(menus);

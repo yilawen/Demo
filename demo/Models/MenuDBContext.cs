@@ -5,10 +5,11 @@ using System.Web;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
 using demo.Utilities;
+using demo.Utilities.Entities;
 
 namespace demo.Models
 {
-    public class MenuModel : DbContext
+    public class MenuDBContext : DbContext
     {
         public DbSet<Menu> Menus { get; set; }
         public DbSet<UserPermission> UserPermissions { get; set; }
@@ -22,25 +23,5 @@ namespace demo.Models
             }).Join(Menus, uP => uP.MenuCode, m => m.Code, (uP, m) => m);
             return data.ToList();
         }
-    }
-
-    [Table("UserPermissions", Schema = "dbo")]
-    public class UserPermission
-    {
-        public int Id { get; set; }
-        public string MenuCode { get; set; }
-        public string UserId { get; set; }
-    }
-
-    [Table("Menus", Schema = "dbo")]
-    public class Menu
-    {
-        public int Id { get; set; }
-        public string Code { get; set; }
-        public string MenuName { get; set; }
-        public string LinkUrl { get; set; }
-        public bool Status { get; set; }
-        public int ParentId { get; set; }
-        public int? Sort { get; set; }
     }
 }

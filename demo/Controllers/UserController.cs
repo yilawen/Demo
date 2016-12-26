@@ -21,8 +21,7 @@ namespace demo.Controllers
         public ActionResult Index()
         {
             if (Session["user"] != null) {
-                ViewBag.user = Session["user"];
-                return View("Index");
+                return RedirectToAction("Notice");
             } else return View("Login");
         }
 
@@ -43,10 +42,10 @@ namespace demo.Controllers
         }
 
         [CheckUser]
-        public RedirectToRouteResult Logout()
+        public ActionResult Logout()
         {
             Session.Abandon();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
         }
 
         [CheckUser]

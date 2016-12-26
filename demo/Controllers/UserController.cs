@@ -127,7 +127,7 @@ namespace demo.Controllers
             {
                 User user = (User)Session["user"];
                 List<Menu> menus = menuModel.GetMenusByUserId(user.Id);
-                ViewBag.menus = Utilities.Helper.MenusFormat(menus);
+                ViewBag.menus = Utilities.Helper.HomepageMenusFormat(menus);
                 ViewBag.username = user.Username;
                 return View("Index");
             }

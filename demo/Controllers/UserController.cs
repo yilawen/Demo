@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System.Text;
 using System.Web.Script.Serialization;
 using demo.Utilities.Entities;
+using demo.Utilities;
 
 namespace demo.Controllers
 {
@@ -27,17 +28,32 @@ namespace demo.Controllers
 
         public JsonResult Login(string username, string password)
         {
-            using (UserDBContext userModel = new UserDBContext())
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            result.Add("status", false);
+            result.Add("message", null);
+            using (UserDBContext userDB = new UserDBContext())
             {
-                bool result = userModel.Authenticate(username, password);
-                if (result) {
-                    var user = userModel.GetUserByUsername(username);
-                    user.LastLoginDate = System.DateTime.Now;
-                    user.LastLoginIP = Request.ServerVariables["REMOTE_ADDR"];
-                    Session["user"] = user;
-                    userModel.UpdateUser(user, new string[]{"LastLoginDate", "LastLoginIP"});
+                try
+                {
+                    if (userDB.Authenticate(username, password))
+                    {
+                        User user = userDB.GetUserByUsername(username);
+                        user.LastLoginDate = System.DateTime.Now;
+                        user.LastLoginIP = Request.ServerVariables["REMOTE_ADDR"];
+                        Session["user"] = user;
+                        userDB.UpdateUser(user, new string[] { "LastLoginDate", "LastLoginIP" });
+                        result["status"] = true;
+                    }
+                    else
+                    {
+                        result["message"] = "用户名或密码不正确";
+                    }
                 }
-                return Json(result, JsonRequestBehavior.DenyGet);
+                catch (Exception ex)
+                {
+                    result["message"] = ex.Message;
+                }
+                return Json(result);
             }
         }
 
@@ -51,9 +67,9 @@ namespace demo.Controllers
         [CheckUser]
         public ActionResult UserManage()
         {
-            using (UserDBContext userModel = new UserDBContext())
+            using (UserDBContext userDB = new UserDBContext())
             {
-                ViewBag.users = userModel.GetAllUsers();
+                ViewBag.users = userDB.GetAllUsers();
                 return View("UserManage");
             }
         }
@@ -61,9 +77,9 @@ namespace demo.Controllers
         [CheckUser]
         public JsonResult GetUsers()
         {
-            using (UserDBContext userModel = new UserDBContext())
+            using (UserDBContext userDB = new UserDBContext())
             {
-                return Json(userModel.GetAllUsers());
+                return Json(userDB.GetAllUsers());
             }
         }
 
@@ -71,17 +87,28 @@ namespace demo.Controllers
         [CheckUser]
         public JsonResult AddUser(User user)
         {
-            using (UserDBContext userModel = new UserDBContext())
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            result.Add("status", false);
+            result.Add("message", null);
+            using (UserDBContext userDB = new UserDBContext())
             {
-                Dictionary<string, object> result = new Dictionary<string,object>();
-                if (userModel.GetUserByUsername(user.Username) != null || userModel.GetUserByNickname(user.Nickname) != null) {
-                    result.Add("status", false);
-                    result.Add("message", "已存在的昵称或用户名");
-                } else {
-                    userModel.AddUser(user);
-                    result.Add("status", true);
+                try
+                {
+                    if (userDB.GetUserByUsername(user.Username) != null || userDB.GetUserByNickname(user.Nickname) != null)
+                    {
+                        result["message"] = "已存在的昵称或用户名";
+                    }
+                    else
+                    {
+                        userDB.AddUser(user);
+                        result["status"] = true;
+                    }
                 }
-                return Json(result, JsonRequestBehavior.DenyGet);
+                catch(Exception ex)
+                {
+                    result["message"] = ex.Message;
+                }
+                return Json(result);
             }
         }
 
@@ -89,23 +116,33 @@ namespace demo.Controllers
         [CheckUser]
         public JsonResult UpdateUserInfo()
         {
-            string userJson = Request.Form["user"];
-            string propertiesStr = Request.Form["properties"];
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var json = serializer.Deserialize<Dictionary<string, string>>(userJson);
-            string[] properties = propertiesStr.Split(',');
             Dictionary<string, object> result = new Dictionary<string, object>();
-            User user = new User() { Id = json["Id"], Password = json["Password"], Nickname = json["Nickname"], Status = Convert.ToInt32(json["Status"]) };
-            using (UserDBContext userModel = new UserDBContext())
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            result.Add("status", false);
+            result.Add("message", null);
+            string userStr = Request.Form["user"];
+            string propertiesStr = Request.Form["properties"];
+            User user = serializer.Deserialize<User>(userStr);
+            string[] properties = propertiesStr.Split(',');
+            using (UserDBContext userDB = new UserDBContext())
             {
-                if (properties.Contains("Nickname") && userModel.GetUserByNickname(user.Nickname) != null) {
-                    result.Add("status", false);
-                    result.Add("message", "已存在的昵称");
-                } else {
-                    userModel.UpdateUser(user, properties);
-                    result.Add("status", true);
+                try
+                {
+                    if (properties.Contains("Nickname") && userDB.GetUserByNickname(user.Nickname) != null)
+                    {
+                        result["message"] = "已存在的昵称";
+                    }
+                    else
+                    {
+                        userDB.UpdateUser(user, properties);
+                        result["status"] = true;
+                    }
                 }
-                return Json(result, JsonRequestBehavior.DenyGet);
+                catch (Exception ex)
+                {
+                    result["message"] = ex.Message;
+                }
+                return Json(result);
             }
         }
 
@@ -113,22 +150,33 @@ namespace demo.Controllers
         [CheckUser]
         public JsonResult DeleteUser(string username)
         {
-            using(UserDBContext userModel = new UserDBContext())
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            result.Add("status", false);
+            result.Add("message", null);
+            using(UserDBContext userDB = new UserDBContext())
             {
-                userModel.DeleteUser(username);
-                return Json(true);
+                try
+                {
+                    userDB.DeleteUser(username);
+                    result["status"] = true;
+                }
+                catch(Exception ex)
+                {
+                    result["message"] = ex.Message;
+                }
+                return Json(result);
             }
         }
 
         [CheckUser]
         public ActionResult Notice()
         { 
-            using (MenuDBContext menuModel = new MenuDBContext())
+            using (MenuDBContext menuDB = new MenuDBContext())
             {
                 User user = (User)Session["user"];
-                List<Menu> menus = menuModel.GetMenusByUserId(user.Id);
-                ViewBag.menus = Utilities.Helper.HomepageMenusFormat(menus);
-                ViewBag.username = user.Username;
+                List<Menu> menus = menuDB.GetMenusByUserId(user.Id);
+                ViewBag.menus = Helper.HomepageMenusFormat(menus);
+                ViewBag.nickname = user.Nickname??user.Username;
                 return View("Index");
             }
         }

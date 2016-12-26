@@ -15,7 +15,8 @@ namespace demo.Models
 
         public bool Authenticate(string username, string password)
         {
-            password = Helper.MD5(password.Trim());
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) return false;
+            password = Helper.MD5(password);
             var result = Users.Where(u => u.Username == username && u.Password == password).Select(u => u.Username).FirstOrDefault();
             if (result == null) return false;
             else return true;
@@ -49,7 +50,7 @@ namespace demo.Models
 
         public void UpdateUser(User user, string[] properties)
         {
-            if (!string.IsNullOrEmpty(user.Nickname)) user.Nickname = user.Nickname.Trim();
+            user.Nickname = string.IsNullOrEmpty(user.Nickname) ? null : user.Nickname.Trim();
             Users.Attach(user);
             var entry = Entry(user);
             if (properties.Contains("Password")) {

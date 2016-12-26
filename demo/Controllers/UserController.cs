@@ -126,8 +126,10 @@ namespace demo.Controllers
         { 
             using (MenuDBContext menuModel = new MenuDBContext())
             {
-                List<Menu> menus = menuModel.GetMenusByUserId(((User)Session["user"]).Id);
+                User user = (User)Session["user"];
+                List<Menu> menus = menuModel.GetMenusByUserId(user.Id);
                 ViewBag.menus = Utilities.Helper.MenusFormat(menus);
+                ViewBag.username = user.Username;
                 return View("Index");
             }
         }

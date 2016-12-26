@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
 using demo.Utilities;
 using demo.Utilities.Entities;
+using System.Data;
 
 namespace demo.Models
 {
@@ -22,6 +23,46 @@ namespace demo.Models
                 MenuCode = uP.MenuCode,
             }).Join(Menus, uP => uP.MenuCode, m => m.Code, (uP, m) => m);
             return data.ToList();
+        }
+
+        public bool isMenuExists(Menu menu)
+        {
+            var result = this.Menus.Where(m => m.Code == menu.Code ||
+                (m.ParentId == menu.ParentId && m.MenuName == menu.MenuName)).ToList();
+            if (result.Count() > 0) return true;
+            else return false;
+        }
+
+        public void AddOrUpdateMenu(Menu menu)
+        {
+            if (menu.Id == 0)
+            {
+                this.Menus.Add(menu);
+                this.SaveChanges();
+            }
+            else
+            {
+                this.Menus.Attach(menu);
+                this.Entry(menu).State = EntityState.Modified;
+                this.SaveChanges();
+            }
+        }
+
+        public void DeleteMenu(Menu menu)
+        {
+            this.Menus.Attach(menu);
+            this.Menus.Remove(menu);
+            this.SaveChanges();
+        }
+
+        public List<Menu> GetAllParentMenus()
+        {
+            return this.Menus.Where(m => m.ParentId == 0).ToList();
+        }
+
+        public List<Menu> GetAllMenus()
+        {
+            return this.Menus.ToList();
         }
     }
 }

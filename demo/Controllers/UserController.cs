@@ -74,13 +74,13 @@ namespace demo.Controllers
         {
             using (UserDBContext userModel = new UserDBContext())
             {
-                Dictionary<string, string> result = new Dictionary<string,string>();
+                Dictionary<string, object> result = new Dictionary<string,object>();
                 if (userModel.GetUserByUsername(user.Username) != null || userModel.GetUserByNickname(user.Nickname) != null) {
-                    result.Add("status", "false");
+                    result.Add("status", false);
                     result.Add("message", "已存在的昵称或用户名");
                 } else {
                     userModel.AddUser(user);
-                    result.Add("status", "true");
+                    result.Add("status", true);
                 }
                 return Json(result, JsonRequestBehavior.DenyGet);
             }
@@ -104,7 +104,7 @@ namespace demo.Controllers
                     result.Add("message", "已存在的昵称");
                 } else {
                     userModel.UpdateUser(user, properties);
-                    result.Add("status", "true");
+                    result.Add("status", true);
                 }
                 return Json(result, JsonRequestBehavior.DenyGet);
             }

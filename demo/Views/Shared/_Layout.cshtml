@@ -4,13 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css/bootstrap.css", "~/Content/css/easyui.css", "~/Content/css/icon.css")
+    @RenderSection("css", false)
 </head>
 <body>
     @RenderBody()
-
-    @Scripts.Render("~/bundles/jquery")
-    @RenderSection("scripts", required: false)
+    @Scripts.Render("~/Scripts/jquery.js", "~/Scripts/jquery.easyui.min.js",
+        "~/Scripts/common.js", "~/Scripts/bootstrap.js", "~/Scripts/easyui-lang-zh_CN.js")
+    @RenderSection("js", false)
 </body>
 </html>

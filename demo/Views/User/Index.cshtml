@@ -1,18 +1,8 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<!-- <meta charset="UTF-8"> -->
-	<title>454</title>
-	<link rel="stylesheet" type="text/css" href="@Href("~/")Content/css/easyui.css">
-	<link rel="stylesheet" type="text/css" href="@Href("~/")Content/css/reset.css">
-	<link rel="stylesheet" type="text/css" href="@Href("~/")Content/css/main.css">
-	<link rel="stylesheet" type="text/css" href="@Href("~/")Content/css/font-awesome.css">
-
-	<script src="@Href("~/")Scripts/jquery.js"></script>
-	<script src="@Href("~/")Scripts/jquery.easyui.min.js"></script>
-	<script src="@Href("~/")Scripts/common.js"></script>
-
+﻿@{
+    ViewBag.Title = "首页";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css{
 	<style type="text/css">
 	header{
 		background-image:url("@Href("~/")Content/image/headBg.jpg");
@@ -171,9 +161,7 @@ main{
 }
 
 	</style>
-
-</head>
-<body>
+}
 	<header>
 
 		<p>用户管理后台</p>
@@ -233,8 +221,3 @@ main{
     </div>
 </div>
 </main>
-
-<script src="@Href("~/")Scripts/main.js"></script>
-<script type="text/javascript">console.log(ViewBag.menus);</script>
-</body>
-</html>

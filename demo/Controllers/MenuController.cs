@@ -14,9 +14,9 @@ namespace demo.Controllers
         //
         // GET: /Menu/
 
-        public ActionResult Index()
+        public ActionResult MenuManage()
         {
-            return View();
+            return View("MenuManage");
         }
 
         public ActionResult AddOrUpdateMenu(Menu menu)

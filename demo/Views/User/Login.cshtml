@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>544646</title>
+    <title>登录页面</title>
+    <link rel="stylesheet" type="text/css" href="@Href("~/")Content/css/bootstrap.css">
     <script src="@Href("~/")Scripts/jquery.js"></script>
+    <script src="@Href("~/")Scripts/bootstrap.js"></script>
+
     <script src="@Href("~/")Scripts/common.js"></script>
     <style type="text/css">
         html,body{
@@ -66,6 +69,8 @@
 
 </head>
 <body>
+    <!-- //模态框
+    <div id="loading" class="loading">Loading pages...</div> -->
     <div class="page">
         <div class="head">
             <span id="labCompany">东莞惠森木业有限公司</span>
@@ -86,8 +91,9 @@
                         <input name="txtPassword" type="password" id="txtPassword" class="inputText" />
                     </li>
                     <li class="liUbtn">
-                        <input type="button" name="" value="登录" id="btnLogin">
-                        <input type="reset" name="" value="取消"></li>
+                        <!-- <input type="button" name="" value="登录" id="btnLogin">
+                        <input type="reset" name="" value="取消"></li> -->
+                        <button type="button" id="btnLogin" data-loading-text="登录..." class="btn btn-primary" autocomplete="off">登录</button>
                 </ul>
             </form>
 
@@ -95,12 +101,23 @@
         <div class="foot">Copyright &copy; 2013-2014 WoodenoxTools All Rights Reserved</div>
     </div>
 
+    <button type="button" id="myButton" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
+    Loading state
+    </button>
+
+
 </body>
     <script type="text/javascript">
     $(function () {
+        $('#myButton').on('click', function () {
+            var $btn = $(this).button('loading')
+            // business logic...
+            $btn.button('reset')
+        })
+
         $("#btnLogin").click(function () {
             $.ajax({
-                method: 'post',
+                type: 'post',
                 url: getRootPath() + "/user/login",
                 dataType: 'json',
                 // 用户名和密码
@@ -117,6 +134,18 @@
                 }
             });
         })
+         //回车提交事件
+         $("body").keydown(function() {
+             if (event.keyCode == "13") {
+                 $('#btnLogin').click();
+             }
+         });
+         //登录状态
+          $('#btnLogin').on('click', function () {
+    var $btn = $(this).button('loading')
+    // business logic...
+    $btn.button('reset')
+  })
     })
 
 </script>

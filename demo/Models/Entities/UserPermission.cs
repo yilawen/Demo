@@ -10,7 +10,7 @@ namespace demo.Utilities.Entities
     public class UserPermission
     {
         public int Id { get; set; }
-        public string MenuCode { get; set; }
+        public int MenuId { get; set; }
         public string UserId { get; set; }
     }
 }

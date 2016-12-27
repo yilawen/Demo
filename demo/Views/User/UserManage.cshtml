@@ -11,9 +11,23 @@
         #users-table td, #users-table th {
             text-align: center;
         }
+        /*bootstrap兼容问题和easyui的bug*/
+        .panel-header, .panel-body {
+            border-width: 0px;
+        }
 
-        #modal-table {
+        #permission_modal .panel {
+            margin-bottom: 20px;
+        }
 
+        #permission_modal .panel-heading {
+            border-bottom: 1px solid transparent;
+        }
+
+        #permission_modal .panel-body{
+            padding: 10px;
+            border: 1px solid #d9edf7;
+            border-top: none;
         }
     </style>
 </head>
@@ -65,11 +79,29 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button id="user-save" type="button" class="btn btn-primary">保存</button>
+            <button id="user_save" type="button" class="btn btn-primary">保存</button>
         </div>
     </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div id="permission_modal" class="modal fade">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">权限设置</h4>
+    </div>
+    <div class="modal-body">
+    </div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+    <button id="permission_save" type="button" class="btn btn-primary">保存</button>
+</div>
+    </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <script type="text/javascript" src="@Href("~/")Scripts/jquery.js"></script>
 <script type="text/javascript" src="@Href("~/")Scripts/common.js"></script>
 <script type="text/javascript" src="@Href("~/")Scripts/bootstrap.js"></script>
@@ -83,6 +115,7 @@
         var ackPasswordBox = $("#ack_password");
         var statusBox = $("#status");
         var userModal = $("#user_modal");
+        var permissionContent = $("#permission_modal .modal-body").eq(0);
         var modalTitle = $("#modal_title");
         var dg = $("#dg");
         var infoForm = $("#info_form");
@@ -156,7 +189,53 @@
                     iconCls:'icon-remove',
                     text: '权限管理',
                     handler: function() {
-                        alert('edit');
+                        selectedRow = dg.datagrid("getSelected");
+                        if(!selectedRow) {
+                            alert("请先选择某个用户！");
+                            return;
+                        }
+                        $.ajax({
+                            url: root + "/user/getAllPermissions",
+                            type: "post",
+                            async: false,
+                            success: function(data) {
+                                permissionContent.html("");
+                                $.each(data, function(index, menuParent) {
+                                    var panel = $("<div class='panel panel-info'><div>");
+                                    var panelHeader = $("<div class='panel-heading'></div>");
+                                    var panelBody = $("<div class='panel-body'></div>");
+                                    panelHeader.html(menuParent.MenuName);
+                                    panel.append(panelHeader).append(panelBody);
+
+                                    $.each(menuParent.Children, function(childIndex, menuChild) {
+                                        var label = $("<label class='checkbox-inline'><label>");
+                                        var input = $("<input type='checkbox'>");
+                                        input.prop("value", menuChild.Id);
+                                        input.prop("id", menuChild.Id);
+                                        label.append(input).append(menuChild.MenuName);
+                                        panelBody.append(label);
+                                    });
+                                    permissionContent.append(panel);
+                                });
+                            },
+                            error: function() {
+                                alert("服务器错误");
+                            }
+                        });
+
+                        $.ajax({
+                            url: root + "/user/getPermissions",
+                            type: "post",
+                            dataType: "json",
+                            data: { userId: selectedRow.Id },
+                            success: function(data) {
+                                $.each(data, function(index, menu) {
+                                    $("#" + menu.Id).prop("checked", true);
+                                });
+
+                                $("#permission_modal").modal("show");
+                            }
+                        });
                     }
                 },'-',
                 {
@@ -189,7 +268,7 @@
             ]
         });
 
-        $("#user-save").on("click", function() {
+        $("#user_save").on("click", function() {
             if(usernameBox.prop("disabled")) {
                 if(passwordBox.val() != ackPasswordBox.val()) {
                     alert("密码不一致！");
@@ -261,6 +340,11 @@
                     }
                 })
             }
+        });
+
+        $("#permission_save").on("click", function() {
+            var test = permissionContent.find("input[type=checkbox]:checked");
+            console.log(test);
         });
     })
 </script>

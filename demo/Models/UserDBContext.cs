@@ -12,6 +12,8 @@ namespace demo.Models
     public class UserDBContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<UserPermission> UserPermissions { get; set; }
+        public DbSet<Menu> Menus { get; set; }
 
         public bool Authenticate(string username, string password)
         {
@@ -78,6 +80,18 @@ namespace demo.Models
         public List<User> GetUsers(int amount, int start)
         {
             return Users.OrderBy(u => u.Id).Skip(start).Take(amount).ToList();
+        }
+
+        public List<Menu> GetAllPermissions()
+        {
+            return this.Menus.ToList();
+        }
+
+        public List<Menu> GetPermissionsByUserId(string userId)
+        {
+            var data = this.Users.Where(u => u.Id == userId).Join(this.UserPermissions, u => u.Id, uP => uP.UserId, (u, uP) => uP).
+                Join(Menus, uP => uP.MenuId, m => m.Id, (uP, m) => m);
+            return data.ToList();
         }
     }
 }

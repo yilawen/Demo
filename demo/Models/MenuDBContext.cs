@@ -18,10 +18,8 @@ namespace demo.Models
 
         public List<Menu> GetMenusByUserId(string userId)
         {
-            var data = Users.Where(u => u.Id == userId).Join(UserPermissions, u => u.Id, uP => uP.UserId, (u, uP) => new
-            {
-                MenuCode = uP.MenuCode,
-            }).Join(Menus, uP => uP.MenuCode, m => m.Code, (uP, m) => m);
+            var data = Users.Where(u => u.Id == userId).Join(UserPermissions, u => u.Id, uP => uP.UserId, (u, uP) => uP).
+                Join(Menus, uP => uP.MenuId, m => m.Id, (uP, m) => m);
             return data.ToList();
         }
 

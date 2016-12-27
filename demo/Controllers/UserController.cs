@@ -168,6 +168,22 @@ namespace demo.Controllers
             }
         }
 
+        public ActionResult GetAllPermissions()
+        {
+            using (UserDBContext userDB = new UserDBContext())
+            {
+                return Json(Helper.MenusFormat(userDB.GetAllPermissions()));
+            }
+        }
+
+        public ActionResult GetPermissions(string userId)
+        {
+            using (UserDBContext userDB = new UserDBContext())
+            {
+                return Json(userDB.GetPermissionsByUserId(userId));
+            }
+        }
+
         [CheckUser]
         public ActionResult Notice()
         { 

@@ -1,12 +1,8 @@
-﻿<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>用户管理</title>
-    <link rel="stylesheet" type="text/css" href="@Href("~/")Content/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="@Href("~/")Content/css/easyui.css">
-    <link rel="stylesheet" type="text/css" href="@Href("~/")Content/css/icon.css">
+﻿@{
+    ViewBag.Title = "用户管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css{
     <style type="text/css">
         #users-table td, #users-table th {
             text-align: center;
@@ -30,9 +26,8 @@
             border-top: none;
         }
     </style>
-</head>
-<body>
-    <table id="dg"></table>
+}
+<table id="dg"></table>
 <!-- modal -->
 <div id="user_modal" class="modal fade">
     <div class="modal-dialog">
@@ -102,10 +97,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script type="text/javascript" src="@Href("~/")Scripts/jquery.js"></script>
-<script type="text/javascript" src="@Href("~/")Scripts/common.js"></script>
-<script type="text/javascript" src="@Href("~/")Scripts/bootstrap.js"></script>
-<script type="text/javascript" src="@Href("~/")Scripts/jquery.easyui.min.js"></script>
+@section js{
 <script type="text/javascript">
     var root = getRootPath();
     $(function() {
@@ -348,5 +340,4 @@
         });
     })
 </script>
-</body>
-</html>
+}

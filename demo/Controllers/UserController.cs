@@ -18,7 +18,6 @@ namespace demo.Controllers
     {
         //
         // GET: /User/
-
         public ActionResult Index()
         {
             if (Session["user"] != null) {
@@ -69,6 +68,7 @@ namespace demo.Controllers
         {
             using (UserDBContext userDB = new UserDBContext())
             {
+                ViewBag.menus = this.GetHomeMenus();
                 ViewBag.users = userDB.GetAllUsers();
                 return View("UserManage");
             }
@@ -191,9 +191,19 @@ namespace demo.Controllers
             {
                 User user = (User)Session["user"];
                 List<Menu> menus = menuDB.GetMenusByUserId(user.Id);
-                ViewBag.menus = Helper.HomepageMenusFormat(menus);
+                ViewBag.menus = this.GetHomeMenus();
                 ViewBag.nickname = user.Nickname??user.Username;
                 return View("Index");
+            }
+        }
+
+        public List<Dictionary<string, object>> GetHomeMenus()
+        {
+            using (MenuDBContext menuDB = new MenuDBContext())
+            {
+                User user = (User)Session["user"];
+                List<Menu> menus = menuDB.GetMenusByUserId(user.Id);
+                return Helper.HomepageMenusFormat(menus);
             }
         }
     }

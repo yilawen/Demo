@@ -1,0 +1,155 @@
+﻿header{
+		background-image:url("@Href("~/")Content/image/headBg.jpg");
+		background-size: contain;
+		width: 100%;
+		height: 50px;
+		position: fixed;
+	}
+	.h-img{
+		padding: 15px;
+		margin-left: 25px;
+		float: left;
+		border-radius: 5px;
+	}
+	p{
+		color: #fff;
+		font-size: 20px;
+		padding: 12px;
+		margin-left: 30px;
+		margin-top: -1px;
+		float: left;
+	}
+	.h-right{
+		float: right;
+		font-size: 13px;
+		color: #fff;
+		padding: 15px 20px;
+		margin-right: 10px;
+		cursor: pointer;
+		text-decoration: none;
+	}
+	.h-right a{
+		color: #fff;
+		text-decoration: none;
+		padding-left: 6px;
+	}
+	.h-right a:hover{
+		text-decoration: none;
+
+	}
+	.h-right .sysuser{
+		color: yellow;
+		margin-left: -6px;
+	}
+	.aside-top .repassword,.aside-top .exist{
+		/*background: url(@Href("~/")Content/image/Folder_bigbtu.png) no-repeat 0 0;*/
+		width: 70px;
+		height: 35px;
+		/*border: solid;*/
+		border:none;
+		border-radius: 10px;
+		margin-left: 15px;
+		cursor: pointer;
+		outline: none;
+
+	}
+
+	.repassword a,.exist a{
+		font-size: 13px;
+		border: none;
+		outline: none;
+		text-decoration: none;
+		color: #165e92;
+
+	}
+	.repassword:hover,.exist:hover{
+		border: 0.5px solid #165e92;
+	}
+	body{
+	position: relative;
+
+}
+ul{
+	margin:0;
+	padding: 0;
+}
+
+/*aside*/
+aside{
+	position: absolute;
+	margin-top: 50px;
+	border:solid;
+	width: 200px;
+	height: 620px;
+	border: 0.1px solid #165e92;
+	/*background-image:url("@Href("~/")Content/image/body_background.png"); */
+		background-size: contain;
+}
+.aside-top{
+	width: 100%;
+	padding: 10px 3px;
+}
+
+/*修改EasyUI css样式*/
+.tabs-title{
+	display: inline-block;
+	-webkit-writing-mode:vertical-lr;
+	font-size: 15px;
+	line-height:20px;
+	margin-top: 18px;
+	margin-left: -2px;
+	color: #165e92;
+	word-spacing: 10px;
+	background: #fff;
+
+
+}
+.tabs{
+border-color: rgba(22, 94, 146, 0.14);
+	background: #fff;
+
+}
+.tabs-header-left .tabs li{
+	background: #fff;
+
+}
+.tabs li a.tabs-inner{
+	/*border-color: rgba(22, 94, 146, 0.14);*/
+	background-color: rgba(22, 94, 146, 0.25);
+}
+.tabs-header{
+	background: #fff;
+	/*border: 0.5px solid #ccc;*/
+	border-color: rgba(22, 94, 146, 0.14);
+}
+.tabs-panels .tabs-title{
+	-webkit-writing-mode:horizontal-tb;
+
+}
+.aside-switch{
+	width: 100%;
+	border: solid;
+}
+.aside-switch .sideLeft{
+	float: left;
+	width: 50px;
+}
+.sideLeft{
+	margin: 0;
+	padding: 0;
+
+}
+.ffirst li{
+	padding: 10px 5px 10px 20px;
+	border: 0.5px solid #ccc;
+	font-size: 13px;
+}
+.ffirst li a{
+	color: #165e92;
+	text-decoration:none;
+}
+main{
+	position:absolute;
+	left: 300px;
+	top: 50px;
+}

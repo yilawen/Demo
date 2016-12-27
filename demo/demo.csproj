@@ -197,6 +197,7 @@
     <Content Include="Content\css\images\tabs_icons.png" />
     <Content Include="Content\css\images\tree_icons.png" />
     <Content Include="Content\css\images\validatebox_warning.png" />
+    <Content Include="Content\css\layout.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\image\footBg.jpg" />
     <Content Include="Content\image\headBg.jpg" />

@@ -16,6 +16,7 @@ namespace demo.Controllers
 
         public ActionResult MenuManage()
         {
+            ViewBag.menus = this.GetHomeMenus();
             return View("MenuManage");
         }
 
@@ -79,6 +80,16 @@ namespace demo.Controllers
             using (MenuDBContext menuDB = new MenuDBContext())
             {
                 return Json(Helper.MenusFormat(menuDB.GetAllMenus()));
+            }
+        }
+
+        public List<Dictionary<string, object>> GetHomeMenus()
+        {
+            using (MenuDBContext menuDB = new MenuDBContext())
+            {
+                User user = (User)Session["user"];
+                List<Menu> menus = menuDB.GetMenusByUserId(user.Id);
+                return Helper.HomepageMenusFormat(menus);
             }
         }
     }

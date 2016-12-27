@@ -1,8 +1,9 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
+	<meta charset="utf-8">
+	<!-- <meta charset="UTF-8"> -->
+	<title>454</title>
 	<link rel="stylesheet" type="text/css" href="@Href("~/")Content/css/easyui.css">
 	<link rel="stylesheet" type="text/css" href="@Href("~/")Content/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="@Href("~/")Content/css/main.css">
@@ -14,9 +15,11 @@
 
 	<style type="text/css">
 	header{
-		background-image:url("@Href("~/")Content/image/headBg.jpg"); 
+		background-image:url("@Href("~/")Content/image/headBg.jpg");
 		background-size: contain;
-
+		width: 100%;
+		height: 50px;
+		position: fixed;
 	}
 	.h-img{
 		padding: 15px;
@@ -29,6 +32,7 @@
 		font-size: 20px;
 		padding: 12px;
 		margin-left: 30px;
+		margin-top: -1px;
 		float: left;
 	}
 	.h-right{
@@ -42,37 +46,40 @@
 	}
 	.h-right a{
 		color: #fff;
+		text-decoration: none;
+		padding-left: 6px;
 	}
 	.h-right a:hover{
 		text-decoration: none;
 
 	}
-	.aside-top .repassword{
-		background: url(@Href("~/")Content/image/Folder_bigbtu.png) no-repeat 0 0;
-		/*margin:11px 0px 0px 7px;*/
-		width: 90px;
+	.h-right .sysuser{
+		color: yellow;
+		margin-left: -6px;
+	}
+	.aside-top .repassword,.aside-top .exist{
+		/*background: url(@Href("~/")Content/image/Folder_bigbtu.png) no-repeat 0 0;*/
+		width: 70px;
 		height: 35px;
-		border: none;
-		border-radius: 5px;
-		color: #165e92;
+		/*border: solid;*/
+		border:none;
+		border-radius: 10px;
+		margin-left: 15px;
+		cursor: pointer;
+		outline: none;
+
 	}
 
-	.repassword span{
-		margin-left: 20px;
-		font-size: 12px;
-	}
-	.aside-top .exist{
-		background: url(@Href("~/")Content/image/Folder_bigbtu.png) no-repeat 0 -72px;
-		/*margin:11px 0px 0px 7px;*/
-		width: 90px;
-		height: 35px;
+	.repassword a,.exist a{
+		font-size: 13px;
 		border: none;
-		border-radius: 5px;
+		outline: none;
+		text-decoration: none;
 		color: #165e92;
+
 	}
-	.exist span{
-		margin-left: 20px;
-		font-size: 12px;
+	.repassword:hover,.exist:hover{
+		border: 0.5px solid #165e92;
 	}
 	body{
 	position: relative;
@@ -81,12 +88,6 @@
 ul{
 	margin:0;
 	padding: 0;
-}
-header{
-	width: 100%;
-	height: 50px;
-	/*border:solid;*/
-	position: fixed;
 }
 
 /*aside*/
@@ -104,33 +105,32 @@ aside{
 	width: 100%;
 	padding: 10px 3px;
 }
-.aside-top button{
-	width: 48%;
-	text-align: center;
-	padding: 5px;
-}
 
 /*修改EasyUI css样式*/
 .tabs-title{
 	display: inline-block;
-
-	/*width: 10px!important;*/
-	/*writing-mode: tb-rl;*/
-	/*writing-mode: lr-tb;*/
 	-webkit-writing-mode:vertical-lr;
-	font-size: 14px;
+	font-size: 15px;
 	line-height:20px;
-	margin-top: 20px;
+	margin-top: 18px;
 	margin-left: -2px;
-	/*color: #165e92;*/
-	/*word-spacing: 10px;*/
+	color: #165e92;
+	word-spacing: 10px;
+	background: #fff;
+
 
 }
 .tabs{
 border-color: rgba(22, 94, 146, 0.14);
+	background: #fff;
+
+}
+.tabs-header-left .tabs li{
+	background: #fff;
+
 }
 .tabs li a.tabs-inner{
-	border-color: rgba(22, 94, 146, 0.14);
+	/*border-color: rgba(22, 94, 146, 0.14);*/
 	background-color: rgba(22, 94, 146, 0.25);
 }
 .tabs-header{
@@ -158,20 +158,12 @@ border-color: rgba(22, 94, 146, 0.14);
 .ffirst li{
 	padding: 10px 5px 10px 20px;
 	border: 0.5px solid #ccc;
+	font-size: 13px;
 }
-/*.sideLeft div{
-	width: 10px;
-	text-align: center;
-
-	padding: 10px;
-	border: solid;
+.ffirst li a{
+	color: #165e92;
+	text-decoration:none;
 }
-*/
-/*.aside-switch .sideRight{
-	float: left;
-}*/
-
-/*main*/
 main{
 	position:absolute;
 	left: 300px;
@@ -183,18 +175,16 @@ main{
 </head>
 <body>
 	<header>
-		<!-- <div class="h-img" title="用户管理后台">
-		<img src="@Href("~/")Content/image/logo.png"></div>
-	-->
-	<p>用户管理后台</p>
-	<div class="h-right">
-		<span id="labCompanyName">东莞惠森木业有限公司&nbsp;&nbsp;&nbsp;&nbsp;</span>
-		当前用户：系统管理员&nbsp;&nbsp;&nbsp;&nbsp;
-		<a href="Instruction.htm" target="_blank">使用帮助&nbsp;&nbsp;</a>
+
+		<p>用户管理后台</p>
+		<div class="h-right">
+			<!-- <span id="labCompanyName">东莞惠森木业有限公司</span>
+		-->
+		<span>当前用户:</span>
+		<a href="" class="sysuser">系统管理员</a>
+		<a href="">使用帮助</a>
 		<a>初始化数据库</a>
-		|&nbsp;&nbsp;
 		<a>备份</a>
-		|&nbsp;&nbsp;
 		<a>生成上月统计</a>
 
 	</div>
@@ -203,37 +193,48 @@ main{
 <aside>
 	<div class="aside-top">
 		<button class="repassword" title="修改密码">
-			<span>修改密码</span>
+			<a>修改密码</a>
 		</button>
 		<button class="exist">
-			<span>退出系统</span>
-		</button>
-	</div>
+			 <a href="@Href("~/")user/logout">退出系统</a>
+		
+	</button>
+</div>
 
-	<div class="sideLeft" id="sideLeft">
+<div class="sideLeft" id="sideLeft">
 
-		<div class="easyui-tabs" id="secfirst" data-options="tabPosition:'left',
+	<div class="easyui-tabs" id="secfirst" data-options="tabPosition:'left',
 	tabHeight:90,headerWidth:40,border:false,
 	" style="width:200px;height: 565px;">
-			@foreach(var menuParent in ViewBag.menus) {
-			<div title="看手机方" >
-				<ul class="ffirst">
-					@foreach(var menuChild in @menuParent.Children) {
-						<li>@menuChild.MenuName</li>
-					}
-				</ul>
-			</div>
-			}
+		@foreach(var menuParent in ViewBag.menus) {
+		<div title="@menuParent["MenuName"]" >
+			<ul class="ffirst">
+				@foreach(var menuChild in @menuParent["Children"]) {
+				<li class="tab" data-href="">
+					<a href="@menuChild["LinkUrl"]">@menuChild["MenuName"]</a>
+				</li>
+				}
+			</ul>
+		</div>
+		}
 	</div>
 
 </aside>
 <main>
-	
+<div id="fpan" class="easyui-panel" title="项目管理"
+    style="width:500px;height:150px;padding:10px;background:#fafafa;"
+    data-options="iconCls:'icon-save',closable:true,
+    collapsible:true,minimizable:true,maximizable:true">
+    <div class="mquery">
+        <p>用户列表</p>
+        <div class="mlist">
+            
+        </div>
+    </div>
+</div>
 </main>
 
 <script src="@Href("~/")Scripts/main.js"></script>
-<script type="text/javascript">
-console.log(ViewBag.menus);
-</script>
+<script type="text/javascript">console.log(ViewBag.menus);</script>
 </body>
 </html>

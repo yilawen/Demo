@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <link rel="stylesheet" type="text/css" href="@Href("~/")Content/css/bootstrap.css">
+    <script src="@Href("~/")Scripts/jquery.js"></script>
+    <script src="@Href("~/")Scripts/bootstrap.js"></script>
+
+    <script src="@Href("~/")Scripts/common.js"></script>
+    <style type="text/css">
+        html,body{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        li{list-style: none;}
+        ul{
+            margin: 0;
+            padding: 0;
+        }
+        .page{
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            background-image: url(@Href("~/")Content/image/middleR.jpg);
+            background-size: 100%;
+            position: relative;
+        }
+        .head{
+            color: #fff;
+            font-size: 40px;
+            margin-top: 50px;
+            display: inline-block;
+        }
+        .show{
+            background: #fff;
+            width: 300px;
+            height: 150px;
+            margin: 0 auto;
+            margin-top: 70px;
+            border-radius:10px;
+        }
+        .liUname input,.liUpwd input{
+            border:0.5px solid #ccc;
+            margin-left: 5px;
+            height: 20px;
+            outline: none;
+        }
+        input{
+            border:0.5px solid #ccc;
+            outline: none;
+            cursor: pointer;
+        }
+        .show li{
+            padding-top: 20px;
+        }
+        .liUbtn input:nth-child(2){
+            margin-left: 70px;
+        }
+        .foot{
+            bottom: 40px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+
+</head>
+<body>
+    <!-- //模态框
+    <div id="loading" class="loading">Loading pages...</div> -->
+    <div class="page">
+        <div class="head">
+            <span id="labCompany">东莞惠森木业有限公司</span>
+            <br />
+            信息管理系统
+        </div>
+        <div class="show">
+
+            <form class="middle">
+                <ul>
+                    <li class="liUname">
+                        <label for="textUsername">用户</label>
+                        <input name="txtUsername" type="text" id="txtUsername" class="inputText" autofocus="autofocus" />
+                    </li>
+                    <li class="liUpwd">
+                        <label for="txtPassword">密码</label>
+
+                        <input name="txtPassword" type="password" id="txtPassword" class="inputText" />
+                    </li>
+                    <li class="liUbtn">
+                        <!-- <input type="button" name="" value="登录" id="btnLogin">
+                        <input type="reset" name="" value="取消"></li> -->
+                        <button type="button" id="btnLogin" data-loading-text="登录..." class="btn btn-primary" autocomplete="off">登录</button>
+                </ul>
+            </form>
+
+        </div>
+        <div class="foot">Copyright &copy; 2013-2014 WoodenoxTools All Rights Reserved</div>
+    </div>
+
+    <button type="button" id="myButton" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
+    Loading state
+    </button>
+
+
+</body>
+    <script type="text/javascript">
+    $(function () {
+        $('#myButton').on('click', function () {
+            var $btn = $(this).button('loading')
+            // business logic...
+            $btn.button('reset')
+        })
+
+        $("#btnLogin").click(function () {
+            $.ajax({
+                type: 'post',
+                url: getRootPath() + "/user/login",
+                dataType: 'json',
+                // 用户名和密码
+                data: {
+                    Username: $("#txtUsername").val(),
+                    Password: $("#txtPassword").val()
+                },
+                success: function (data) {
+                    if (data) {
+                        window.location.href = getRootPath() + "/user/notice";
+                    } else {
+                        alert("用户名或密码错误");
+                    }
+                }
+            });
+        })
+         //回车提交事件
+         $("body").keydown(function() {
+             if (event.keyCode == "13") {
+                 $('#btnLogin').click();
+             }
+         });
+         //登录状态
+          $('#btnLogin').on('click', function () {
+    var $btn = $(this).button('loading')
+    // business logic...
+    $btn.button('reset')
+  })
+    })
+
+</script>
+</html>

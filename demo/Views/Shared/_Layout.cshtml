@@ -8,7 +8,7 @@
     @RenderSection("css", false)
 </head>
 <body>
-    	<header>
+    	<header id="header">
 
 		<p>用户管理后台</p>
 		<div class="h-right">
@@ -24,7 +24,7 @@
 	</div>
 
 </header>
-<aside>
+<aside id="aside">
 	<div class="aside-top">
 		<button class="repassword" title="修改密码">
 			<a>修改密码</a>
@@ -38,8 +38,8 @@
 <div class="sideLeft" id="sideLeft">
 
 	<div class="easyui-tabs" id="secfirst" data-options="tabPosition:'left',
-	tabHeight:90,headerWidth:40,border:false,
-	" style="width:200px;height: 565px;">
+	tabHeight:88,headerWidth:40,border:false,
+	" style="width:190px;height: 560px;">
 		@foreach(var menuParent in ViewBag.menus) {
 		<div title="@menuParent["MenuName"]" >
 			<ul class="ffirst">
@@ -54,7 +54,7 @@
 	</div>
 
 </aside>
-<main>
+<main id="main">
  @RenderBody()
 </main>
     @Scripts.Render("~/Scripts/jquery.js", "~/Scripts/jquery.easyui.min.js",

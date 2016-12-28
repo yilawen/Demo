@@ -79,7 +79,7 @@ namespace demo.Controllers
         {
             using (MenuDBContext menuDB = new MenuDBContext())
             {
-                return Json(Helper.MenusFormat(menuDB.GetAllMenus()));
+                return Json(Helper.MenusFormatNest(menuDB.GetAllMenus()));
             }
         }
 
@@ -90,6 +90,14 @@ namespace demo.Controllers
                 User user = (User)Session["user"];
                 List<Menu> menus = menuDB.GetMenusByUserId(user.Id);
                 return Helper.HomepageMenusFormat(menus);
+            }
+        }
+
+        public ActionResult test()
+        {
+            using (MenuDBContext menuDB = new MenuDBContext())
+            {
+                return Json(Helper.MenusFormatList(menuDB.GetAllMenus()), JsonRequestBehavior.AllowGet);
             }
         }
     }

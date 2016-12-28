@@ -44,7 +44,7 @@ namespace demo.Utilities
             return result;
         }
 
-        public static List<Dictionary<string, object>> MenusFormat(List<Menu> menus)
+        public static List<Dictionary<string, object>> MenusFormatNest(List<Menu> menus)
         {
             if (menus.Count() == 0) return null;
             List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
@@ -70,6 +70,28 @@ namespace demo.Utilities
                 {
                     ((List<Menu>)result[index]["Children"]).Add(menu);
                 }
+            });
+            return result;
+        }
+
+        public static List<Dictionary<string, object>> MenusFormatList(List<Menu> menus)
+        {
+            if (menus.Count() == 0) return null;
+            List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
+            menus.ForEach(menu =>
+            {
+                Dictionary<string, object> menuParent = new Dictionary<string, object>();
+                menuParent.Add("id", menu.Id);
+                menuParent.Add("code", menu.Code);
+                menuParent.Add("menuName", menu.MenuName);
+                menuParent.Add("linkUrl", menu.LinkUrl);
+                menuParent.Add("sort", menu.Sort);
+                menuParent.Add("status", menu.Status);
+                if (menu.ParentId != 0)
+                {
+                    menuParent.Add("parentId", menu.ParentId);
+                }
+                result.Add(menuParent);
             });
             return result;
         }

@@ -177,7 +177,7 @@ namespace demo.Controllers
         {
             using (UserDBContext userDB = new UserDBContext())
             {
-                return Json(Helper.MenusFormat(userDB.GetAllPermissions()));
+                return Json(Helper.MenusFormatNest(userDB.GetAllPermissions()));
             }
         }
 

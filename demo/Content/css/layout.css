@@ -1,164 +1,109 @@
-#header{
-		background-image:url("../image/headBg.jpg"); //相对路径
-		background-size: contain;
-		/*background-color: blue;*/
-		width: 100%;
-		height: 50px;
-		position: fixed;
-	}
-	.h-img{
-		padding: 15px;
-		margin-left: 25px;
-		float: left;
-		border-radius: 5px;
-	}
-	#header p{
-		color: #fff;
-		font-size: 20px;
-		padding: 12px;
-		margin-left: 30px;
-		margin-top: -1px;
-		float: left;
-	}
-	.h-right{
-		float: right;
-		font-size: 13px;
-		color: #fff;
-		padding: 15px 20px;
-		margin-right: 10px;
-		cursor: pointer;
-		text-decoration: none;
-	}
-	.h-right a{
-		color: #fff;
-		text-decoration: none;
-		padding-left: 6px;
-	}
-	.h-right a:hover{
-		text-decoration: none;
-
-	}
-	.h-right .sysuser{
-		color: yellow;
-		margin-left: -6px;
-	}
-	.aside-top .repassword,.aside-top .exist{
-		/*background: url(@Href("~/")Content/image/Folder_bigbtu.png) no-repeat 0 0;*/
-		width: 70px;
-		height: 35px;
-		/*border: solid;*/
-		border:none;
-		border-radius: 10px;
-		margin-left: 15px;
-		cursor: pointer;
-		outline: none;
-
-	}
-
-	.repassword a,.exist a{
-		font-size: 13px;
-		border: none;
-		outline: none;
-		text-decoration: none;
-		color: #165e92;
-
-	}
-	.repassword:hover,.exist:hover{
-		border: 0.5px solid #165e92;
-	}
-	body{
-	position: relative;
-
+#header, #header p, .header-nav {
+	height: 50px;
+	line-height: 50px;
 }
-ul{
-	margin:0;
+
+#header{
+	background: #155fa0;
+}
+
+#header p{
+	color: #fff;
+	font-size: 20px;
+	margin-left: 30px;
+	display: inline-block;
+}
+.header-nav{
+	float: right;
+	font-size: 13px;
+	color: #fff;
+	margin: 0;
+	padding: 0;
+	margin-right: 30px;
+	list-style-type: none;
+}
+
+.header-nav li{
+	display: inline-block;
+	height: 100%;
+	padding: 0 10px;
+	color: #fff;
+	transition: all .2s;
+}
+
+.header-nav li:hover{
+	background: #54a5ec;
+	cursor: pointer;
+}
+
+.header-nav li a {
+	height: 100%;
+	width: 100%;
+	display: block;
+	color: #fff;
+}
+
+.header-nav a, .header-nav a:hover {
+	text-decoration: none;
+}
+
+#user {
+	position: relative;
+}
+
+#user:hover ul, #user ul:hover{
+	display: block;
+}
+
+#user ul{
+	width: 100%;
+	background: #155fa0;
+	list-style-type: none;
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	display: none;
+	top: 100%;
+	left: 0;
+	z-index: 10;
+}
+
+#user ul li {
+	display: block;
+	padding: 10 10px;
+	text-align: center;
+	transition: all .2s;
+}
+
+.home-menu {
+	list-style-type: none;
+	margin: 0;
 	padding: 0;
 }
 
-/*aside*/
-#aside{
-	position: absolute;
-	margin-top: 50px;
-	border:solid;
-	width: 206px;
-	height: 625px;
-	border: 0.5px solid #165e92;
-	/*background-image:url("@Href("~/")Content/image/body_background.png"); */
-		background-size: contain;
-}
-.aside-top{
-	width: 100%;
-	padding: 10px 3px;
-}
-
-/*修改EasyUI css样式*/
-.tabs-title{
-	display: inline-block;
-	-webkit-writing-mode:vertical-lr;
-	font-size: 15px;
-	line-height:20px;
-	margin-top: 18px;
-	margin-left: -2px;
+.home-menu li{
 	color: #165e92;
-	word-spacing: 10px;
-	background: #fff;
+	border-bottom: 1px dashed #7f9dd0;
+}
 
+.home-menu li a, .home-menu li a:hover {
+	text-decoration: none;
+}
 
-}
-.tabs{
-border-color: rgba(22, 94, 146, 0.14);
-	background: #fff;
-
-}
-.tabs-header-left .tabs li{
-	background: #fff;
-
-}
-.tabs li a.tabs-inner{
-	/*border-color: rgba(22, 94, 146, 0.14);*/
-	background-color: rgba(22, 94, 146, 0.25);
-}
-.tabs-header{
-	background: #fff;
-	/*border: 0.5px solid #ccc;*/
-	border-color: rgba(22, 94, 146, 0.14);
-}
-.tabs-panels .tabs-title{
-	-webkit-writing-mode:horizontal-tb;
-}
-.tabs-panels{
-	margin-top: 4px;
-}
-.aside-switch{
+.home-menu li a {
 	width: 100%;
-	border: solid;
+	height: 100%;
+	display: block;
+	padding: 4px 10px;
+	transition: all .2s;
 }
-.aside-switch .sideLeft{
-	float: left;
-	width: 50px;
-}
-.sideLeft{
-	margin:0;
-	padding: 3px;
-	border-top: 0.5px solid #165e92;
 
+.home-menu li a:hover {
+	color: #fff;
+	background: #54a5ec;
+}
 
+.home-menu li a .glyphicon {
+	padding-right: 10px;
 }
-.ffirst li{
-	padding: 10px 5px 10px 20px;
-	border: 0.5px solid #ccc;
-	font-size: 13px;
-}
-.ffirst li a{
-	color: #165e92;
-	text-decoration:none;
-}
-#main{
-	position:absolute;
-	left: 300px;
-	top: 50px;
-	width: 800px;
-	height: 600px;
-	margin-left: -80px;
-	margin-top: 25px;
-}
+

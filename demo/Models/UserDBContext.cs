@@ -77,8 +77,14 @@ namespace demo.Models
             return Users.ToList<User>();
         }
 
-        public List<User> GetUsers(int amount, int start)
+        public int GetUsersAmount()
         {
+            return Users.Count();
+        }
+
+        public List<User> GetUsers(int offset, int amount)
+        {
+            int start = --offset * amount;
             return Users.OrderBy(u => u.Id).Skip(start).Take(amount).ToList();
         }
 

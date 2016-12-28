@@ -77,9 +77,14 @@ namespace demo.Controllers
         [CheckUser]
         public JsonResult GetUsers()
         {
+            int offset = Convert.ToInt32(Request.Form["page"]);
+            int amount = Convert.ToInt32(Request.Form["rows"]);
             using (UserDBContext userDB = new UserDBContext())
             {
-                return Json(userDB.GetAllUsers());
+                Dictionary<string, object> data = new Dictionary<string,object>();
+                data.Add("rows", userDB.GetUsers(offset, amount));
+                data.Add("total", userDB.GetUsersAmount());
+                return Json(data);
             }
         }
 

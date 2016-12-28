@@ -112,6 +112,7 @@
         var dg = $("#dg");
         var infoForm = $("#info_form");
         var selectedRow = null;
+        var usersTotal = 0;
 
         statusBox.on("click", function() {
             if($(this).prop("checked")) $(this).val("1");
@@ -119,7 +120,7 @@
         });
 
         $('#dg').datagrid({
-            url: root + '/User/GetUsers',
+            url: root + '/User/GetUsers?',
             singleSelect: true,
             columns:[[
                 {field:'Id',checkbox:true,width:100},
@@ -135,6 +136,10 @@
                     else return "禁用";
                 }},
             ]],
+            pagination: true,
+            onSelectPage: function(pageNumber, pageSize) {
+                dg.datagrid('load');
+            },
             toolbar: [
                 {
                     iconCls:'icon-add',

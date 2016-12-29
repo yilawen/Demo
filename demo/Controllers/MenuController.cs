@@ -92,13 +92,5 @@ namespace demo.Controllers
                 return Helper.HomepageMenusFormat(menus);
             }
         }
-
-        public ActionResult test()
-        {
-            using (MenuDBContext menuDB = new MenuDBContext())
-            {
-                return Json(Helper.MenusFormatList(menuDB.GetAllMenus()), JsonRequestBehavior.AllowGet);
-            }
-        }
     }
 }

@@ -100,6 +100,18 @@
 @section js{
 <script type="text/javascript">
     var root = getRootPath();
+
+    function createCheckbox(id, value, inputClass, text)
+    {
+        var label = $("<label class='checkbox-inline'><label>");
+        var input = $("<input type='checkbox'>");
+        input.addClass(inputClass);
+        if(id) input.prop("id", id);
+        if(value) input.prop("value", value);
+        label.append(input).append(text);
+        return label;
+    }
+
     $(function() {
         var usernameBox = $("#username");
         var nicknameBox = $("#nickname");
@@ -107,12 +119,13 @@
         var ackPasswordBox = $("#ack_password");
         var statusBox = $("#status");
         var userModal = $("#user_modal");
+        var permissionModal = $("#permission_modal");
         var permissionContent = $("#permission_modal .modal-body").eq(0);
         var modalTitle = $("#modal_title");
         var dg = $("#dg");
         var infoForm = $("#info_form");
         var selectedRow = null;
-        var usersTotal = 0;
+        var oldPermissions = null;
 
         statusBox.on("click", function() {
             if($(this).prop("checked")) $(this).val("1");
@@ -187,6 +200,7 @@
                     text: '权限管理',
                     handler: function() {
                         selectedRow = dg.datagrid("getSelected");
+                        oldPermissions = new Array();
                         if(!selectedRow) {
                             alert("请先选择某个用户！");
                             return;
@@ -201,16 +215,16 @@
                                     var panel = $("<div class='panel panel-info'><div>");
                                     var panelHeader = $("<div class='panel-heading'></div>");
                                     var panelBody = $("<div class='panel-body'></div>");
-                                    panelHeader.html(menuParent.MenuName);
+                                    panelHeader.append(
+                                        createCheckbox(menuParent.Id, menuParent.Id, "checkbox-permission", menuParent.MenuName)
+                                    ).append(
+                                        createCheckbox(null, null, "checkbox-all", "全选")
+                                    );
                                     panel.append(panelHeader).append(panelBody);
-
                                     $.each(menuParent.Children, function(childIndex, menuChild) {
-                                        var label = $("<label class='checkbox-inline'><label>");
-                                        var input = $("<input type='checkbox'>");
-                                        input.prop("value", menuChild.Id);
-                                        input.prop("id", menuChild.Id);
-                                        label.append(input).append(menuChild.MenuName);
-                                        panelBody.append(label);
+                                        panelBody.append(
+                                            createCheckbox(menuChild.Id, menuChild.Id, "checkbox-permission", menuChild.MenuName)
+                                        );
                                     });
                                     permissionContent.append(panel);
                                 });
@@ -226,11 +240,12 @@
                             dataType: "json",
                             data: { userId: selectedRow.Id },
                             success: function(data) {
-                                $.each(data, function(index, menu) {
-                                    $("#" + menu.Id).prop("checked", true);
+                                $.each(data, function(index, permission) {
+                                    $("#" + permission.MenuId).prop("checked", true).data("pmsId", permission.Id);
+                                    oldPermissions.push(permission.MenuId);
                                 });
 
-                                $("#permission_modal").modal("show");
+                                permissionModal.modal("show");
                             }
                         });
                     }
@@ -339,9 +354,70 @@
             }
         });
 
+
+        permissionContent.on("click", ".checkbox-all", function() {
+            var panelBody = $(this).parent().parent().next();
+            var checkboxes = panelBody.find(".checkbox-permission");
+            if($(this).prop("checked")) {
+                checkboxes.each(function() {
+                   $(this).prop("checked", true);
+                });
+            } else {
+                checkboxes.each(function() {
+                   $(this).prop("checked", false);
+                });
+            }
+        });
+
         $("#permission_save").on("click", function() {
-            var test = permissionContent.find("input[type=checkbox]:checked");
-            console.log(test);
+            var userAddedPermissions = new Array();
+            var userDeletedPermissions = new Array();
+            var newPermissions = new Array();
+            var checkedPermissions = permissionContent.find("input[class=checkbox-permission]:checked");
+            var isAdded = true;
+            checkedPermissions.each(function() {
+                newPermissions.push(parseInt($(this).val()));
+            });
+
+
+            for(var i = 0; i < newPermissions.length; i++) {
+                isAdded = true;
+                for(var j = 0; j < oldPermissions.length; j++) {
+                    if(newPermissions[i] == oldPermissions[j]) {
+                        delete oldPermissions[j];
+                        isAdded = false;
+                        break;
+                    }
+                }
+                if(isAdded) userAddedPermissions.push(newPermissions[i])
+            }
+
+            oldPermissions.forEach(function(value) {
+                if(value) userDeletedPermissions.push($("#" + value).data("pmsId"));
+            });
+
+            $.ajax({
+                url: root + "/user/UpdateUserPemissions",
+                type: "post",
+                dataType: "json",
+                data: {
+                    userId: selectedRow.Id,
+                    addedPmsIds: userAddedPermissions,
+                    deletedPmsIds: userDeletedPermissions
+                },
+                traditional: true,
+                success: function(result) {
+                    if(result.status) {
+                        alert("修改成功！");
+                        permissionModal.modal("hide");
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function() {
+                    alert("服务器出错");
+                }
+            });
         });
     })
 </script>

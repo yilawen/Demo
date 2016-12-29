@@ -211,5 +211,25 @@ namespace demo.Controllers
                 return Helper.HomepageMenusFormat(menus);
             }
         }
+
+        public ActionResult UpdateUserPemissions(string userId, int[] addedPmsIds, int[] deletedPmsIds)
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            result.Add("status", false);
+            result.Add("message", null);
+            using (UserDBContext userDB = new UserDBContext())
+            {
+                try
+                {
+                    userDB.UpdateUserPermissions(userId, addedPmsIds, deletedPmsIds);
+                    result["status"] = true;
+                }
+                catch (Exception ex)
+                {
+                    result["message"] = ex.Message;
+                }
+                return Json(result);
+            }
+        }
     }
 }

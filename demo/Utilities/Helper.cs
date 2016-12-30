@@ -59,7 +59,7 @@ namespace demo.Utilities
                     menuParent.Add("LinkUrl", menu.LinkUrl);
                     menuParent.Add("Sort", menu.Sort);
                     menuParent.Add("Status", menu.Status);
-                    menuParent.Add("Children", new List<Menu>());
+                    menuParent.Add("children", new List<Menu>());
                     result.Add(menuParent);
                 }
             });
@@ -68,7 +68,7 @@ namespace demo.Utilities
                 int index = result.FindIndex(mP => Convert.ToInt32(mP["Id"]) == menu.ParentId);
                 if (index != -1)
                 {
-                    ((List<Menu>)result[index]["Children"]).Add(menu);
+                    ((List<Menu>)result[index]["children"]).Add(menu);
                 }
             });
             return result;
@@ -89,7 +89,7 @@ namespace demo.Utilities
                 menuParent.Add("status", menu.Status);
                 if (menu.ParentId != 0)
                 {
-                    menuParent.Add("parentId", menu.ParentId);
+                    menuParent.Add("_parentid", menu.ParentId);
                 }
                 result.Add(menuParent);
             });

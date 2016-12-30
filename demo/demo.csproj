@@ -138,6 +138,7 @@
     <Compile Include="Models\Entities\Menu.cs" />
     <Compile Include="Models\Entities\User.cs" />
     <Compile Include="Models\Entities\UserPermission.cs" />
+    <None Include="Scripts\tree.json" />
     <Compile Include="Utilities\Helper.cs" />
     <Compile Include="Utilities\Role.cs" />
   </ItemGroup>
@@ -237,6 +238,7 @@
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\UserManage.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Menu\MenuManage.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

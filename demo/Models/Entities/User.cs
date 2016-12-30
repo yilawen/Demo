@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace demo.Utilities.Entities
+namespace demo.Models.Entities
 {
     [Table("Users", Schema = "dbo")]
     public class User

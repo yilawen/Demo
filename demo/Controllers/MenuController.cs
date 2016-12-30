@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using demo.Models;
-using demo.Utilities.Entities;
+using demo.Models.Entities;
 using demo.Utilities;
 
 namespace demo.Controllers

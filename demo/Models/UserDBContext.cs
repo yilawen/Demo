@@ -5,7 +5,7 @@ using System.Web;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
 using demo.Utilities;
-using demo.Utilities.Entities;
+using demo.Models.Entities;
 using System.Data;
 
 namespace demo.Models

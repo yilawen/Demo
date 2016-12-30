@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "属性库设置";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table id="dg"></table>
+
+@section js{
+<script type="text/javascript">
+    var root = getRootPath();
+    $(function() {
+        var dg = $("#dg");
+        var propertyModal = $("#property_modal");
+        var propertyNameBox = $("#property_name");
+        var descriptionBox = $("#description");
+        var useWayBox = $("#use_way");
+        var defineMethodBox = $("#define_method");
+        var statusBox = $("#status");
+        dg.datagrid({
+            url: root + '/property/getProperties',
+            singleSelect: true,
+            fitColumns: true,
+            pagination: true,
+            onSelectPage: function(pageNumber, pageSize) {
+                dg.datagrid('load');
+            },
+            columns:[[
+                {field:'Id',title:'编号',width:30},
+                {field:'PropertyName',title:'属性名称',width:100},
+                {field:'Description',title:'说明',width:100},
+                {field:'UseWay',title:'使用方式',width:100},
+                {field:'DefineMethod',title:'定义方法',width:100},
+                {field:'Status',title:'状态',width:100, formatter: function(value,row,index) {
+                    if(row.Enable) {
+                        if(value) return "<div class='checkbox'><label><input class='checkbox-status' type='checkbox' checked='checked'>启用</label></div>";
+                        else return "<div class='checkbox'><label><input class='checkbox-status' type='checkbox'>启用</label></div>";
+                    } else {
+                        if(value) return "<div class='checkbox'><label><input class='checkbox-status' type='checkbox' checked='checked' disabled='disabled'>启用</label></div>";
+                        else return "<div class='checkbox'><label><input class='checkbox-status' type='checkbox' disabled='disabled'>启用</label></div>";
+                    }
+                }},
+                {field:'Enable',title:'是否允许修改',width:100,formatter: function(value,row,index) {
+                    if(value) return "是";
+                    else return "否";
+                }}
+            ]]
+        });
+
+        $(document).on("click", ".checkbox-status", function() {
+            var selectedRow = dg.datagrid('getSelected');
+            var status = $(this).prop("checked");
+            $.ajax({
+                url: root + "/property/updateProperty",
+                type: "post",
+                dataType: "json",
+                data: {
+                    Id: selectedRow.Id,
+                    Status: status
+                },
+                beforeSend: function() {
+                    dg.datagrid("loading");
+                },
+                success: function(result) {
+                    if(result.status) {
+                        dg.datagrid("reload");
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function() {
+                    alert("服务器出错");
+                }
+            })
+        });
+    })
+</script>
+}
+

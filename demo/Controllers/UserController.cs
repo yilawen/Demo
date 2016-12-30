@@ -9,8 +9,8 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Text;
 using System.Web.Script.Serialization;
-using demo.Utilities.Entities;
 using demo.Utilities;
+using demo.Models.Entities;
 
 namespace demo.Controllers
 {

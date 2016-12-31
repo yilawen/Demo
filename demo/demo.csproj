@@ -141,7 +141,6 @@
     <Compile Include="Models\Entities\Menu.cs" />
     <Compile Include="Models\Entities\User.cs" />
     <Compile Include="Models\Entities\UserPermission.cs" />
-    <None Include="Scripts\tree.json" />
     <Compile Include="Utilities\Helper.cs" />
     <Compile Include="Utilities\Role.cs" />
   </ItemGroup>
@@ -214,6 +213,7 @@
     <Content Include="Scripts\jquery.easyui.min.js" />
     <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\layout.js" />
     <Content Include="Scripts\messages_zh.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

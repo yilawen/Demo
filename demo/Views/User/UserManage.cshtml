@@ -135,6 +135,7 @@
         $('#dg').datagrid({
             url: root + '/User/GetUsers?',
             singleSelect: true,
+            fitColumns: true,
             columns:[[
                 {field:'Id',checkbox:true,width:100},
                 {field:'Username',title:'用户名',width:100},
@@ -221,7 +222,7 @@
                                         createCheckbox(null, null, "checkbox-all", "全选")
                                     );
                                     panel.append(panelHeader).append(panelBody);
-                                    $.each(menuParent.Children, function(childIndex, menuChild) {
+                                    $.each(menuParent.children, function(childIndex, menuChild) {
                                         panelBody.append(
                                             createCheckbox(menuChild.Id, menuChild.Id, "checkbox-permission", menuChild.MenuName)
                                         );

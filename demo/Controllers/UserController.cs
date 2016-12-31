@@ -151,6 +151,23 @@ namespace demo.Controllers
             }
         }
 
+        public ActionResult UpdateCurrentUserPassword(string password)
+        {
+            User user = (User)Session["user"];
+            using (UserDBContext userDB = new UserDBContext())
+            {
+                try
+                { 
+                    userDB.UpdateUser(new User() { Id = user.Id, Password = password}, new string[]{"Password"});
+                    return Json(new { status = true });
+                }
+                catch(Exception ex)
+                {
+                    return Json(new { status = false, message = ex.Message });
+                }
+            }
+        }
+
         [HttpPost]
         [CheckUser]
         public JsonResult DeleteUser(string username)

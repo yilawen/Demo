@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <title>登录页面</title>
     <link rel="stylesheet" type="text/css" href="@Href("~/")Content/css/bootstrap.css">
-    <script src="@Href("~/")Scripts/jquery.js"></script>
-    <script src="@Href("~/")Scripts/bootstrap.js"></script>
-
-    <script src="@Href("~/")Scripts/common.js"></script>
     <style type="text/css">
         html,body{
             width: 100%;
@@ -34,119 +30,91 @@
             margin-top: 50px;
             display: inline-block;
         }
-        .show{
-            background: #fff;
-            width: 300px;
-            height: 150px;
-            margin: 0 auto;
-            margin-top: 70px;
-            border-radius:10px;
-        }
-        .liUname input,.liUpwd input{
-            border:0.5px solid #ccc;
-            margin-left: 5px;
-            height: 20px;
-            outline: none;
-        }
-        input{
-            border:0.5px solid #ccc;
-            outline: none;
-            cursor: pointer;
-        }
-        .show li{
-            padding-top: 20px;
-        }
-        .liUbtn input:nth-child(2){
-            margin-left: 70px;
-        }
+
         .foot{
             bottom: 40px;
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
         }
+
+        #login_box {
+            margin: 0 auto;
+            margin-top: 40px;
+            width: 400px;
+            background: #fff;
+            border-radius: 5px;
+            padding: 20px;
+        }
     </style>
 
 </head>
 <body>
-    <!-- //模态框
-    <div id="loading" class="loading">Loading pages...</div> -->
     <div class="page">
         <div class="head">
             <span id="labCompany">东莞惠森木业有限公司</span>
             <br />
             信息管理系统
         </div>
-        <div class="show">
-
-            <form class="middle">
-                <ul>
-                    <li class="liUname">
-                        <label for="textUsername">用户</label>
-                        <input name="txtUsername" type="text" id="txtUsername" class="inputText" autofocus="autofocus" />
-                    </li>
-                    <li class="liUpwd">
-                        <label for="txtPassword">密码</label>
-
-                        <input name="txtPassword" type="password" id="txtPassword" class="inputText" />
-                    </li>
-                    <li class="liUbtn">
-                        <!-- <input type="button" name="" value="登录" id="btnLogin">
-                        <input type="reset" name="" value="取消"></li> -->
-                        <button type="button" id="btnLogin" data-loading-text="登录..." class="btn btn-primary" autocomplete="off">登录</button>
-                </ul>
+        <div id="login_box">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label for="username" class="col-sm-3 control-label">用户名</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="username" id="username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-sm-3 control-label">密码</label>
+                    <div class="col-sm-8">
+                        <input type="password" class="form-control" name="password" id="password">
+                    </div>
+                </div>
+                <button type="button" id="btn_login" class="btn btn-primary">登录</button>
             </form>
-
         </div>
         <div class="foot">Copyright &copy; 2013-2014 WoodenoxTools All Rights Reserved</div>
     </div>
 
-    <button type="button" id="myButton" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
-    Loading state
-    </button>
-
-
-</body>
+    <script src="@Href("~/")Scripts/jquery.js"></script>
+    <script src="@Href("~/")Scripts/bootstrap.js"></script>
+    <script src="@Href("~/")Scripts/common.js"></script>
     <script type="text/javascript">
-    $(function () {
-        $('#myButton').on('click', function () {
-            var $btn = $(this).button('loading')
-            // business logic...
-            $btn.button('reset')
-        })
-
-        $("#btnLogin").click(function () {
-            $.ajax({
-                type: 'post',
-                url: getRootPath() + "/user/login",
-                dataType: 'json',
-                // 用户名和密码
-                data: {
-                    Username: $("#txtUsername").val(),
-                    Password: $("#txtPassword").val()
-                },
-                success: function (data) {
-                    if (data) {
-                        window.location.href = getRootPath() + "/user/notice";
-                    } else {
-                        alert("用户名或密码错误");
-                    }
+        var root = getRootPath();
+        $(function () {
+            var usernameBox = $("#username");
+            var passwordBox = $("#password");
+            $("#btn_login").on("click", function () {
+                if(!usernameBox.val() || !passwordBox.val()) {
+                    alert("用户名和密码不能为空!");
+                    return;
                 }
+                $.ajax({
+                    type: 'post',
+                    url: root + "/user/login",
+                    dataType: 'json',
+                    data: {
+                        Username: usernameBox.val(),
+                        Password: passwordBox.val()
+                    },
+                    success: function (result) {
+                        if (result.status) {
+                            window.location.href = root + "/user/notice";
+                        } else {
+                            alert(result.message);
+                        }
+                    }
+                });
+            });
+
+            usernameBox.on("keydown", function() {
+                if(event.keyCode == 13) $("#btn_login").click();
+            });
+
+            passwordBox.on("keydown", function() {
+                if(event.keyCode == 13) $("#btn_login").click();
             });
         })
-         //回车提交事件
-         $("body").keydown(function() {
-             if (event.keyCode == "13") {
-                 $('#btnLogin').click();
-             }
-         });
-         //登录状态
-          $('#btnLogin').on('click', function () {
-    var $btn = $(this).button('loading')
-    // business logic...
-    $btn.button('reset')
-  })
-    })
-
-</script>
+    </script>
+</body>
 </html>

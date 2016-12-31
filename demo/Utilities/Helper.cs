@@ -12,6 +12,7 @@ namespace demo.Utilities
     {
         public static string MD5(string str)
         {
+            if (string.IsNullOrEmpty(str)) return null;
             return FormsAuthentication.HashPasswordForStoringInConfigFile(str, "MD5").ToLower();
         }
 
@@ -89,7 +90,7 @@ namespace demo.Utilities
                 menuParent.Add("status", menu.Status);
                 if (menu.ParentId != 0)
                 {
-                    menuParent.Add("_parentid", menu.ParentId);
+                    menuParent.Add("parentid", menu.ParentId);
                 }
                 result.Add(menuParent);
             });

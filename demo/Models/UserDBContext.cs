@@ -5,7 +5,8 @@ using System.Web;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
 using demo.Utilities;
-using demo.Utilities.Entities;
+using demo.Models.Entities;
+using System.Data;
 
 namespace demo.Models
 {
@@ -93,11 +94,28 @@ namespace demo.Models
             return this.Menus.ToList();
         }
 
-        public List<Menu> GetPermissionsByUserId(string userId)
+        public List<UserPermission> GetPermissionsByUserId(string userId)
         {
-            var data = this.Users.Where(u => u.Id == userId).Join(this.UserPermissions, u => u.Id, uP => uP.UserId, (u, uP) => uP).
-                Join(Menus, uP => uP.MenuId, m => m.Id, (uP, m) => m);
-            return data.ToList();
+            return UserPermissions.Where(uP => uP.UserId == userId).ToList();
+        }
+
+        public void UpdateUserPermissions(string userId, int[] addedPmsIds, int[] deletedPmsIds)
+        {
+            if (addedPmsIds != null)
+            {
+                foreach (var menuId in addedPmsIds)
+                {
+                    UserPermissions.Add(new UserPermission { UserId = userId, MenuId = menuId });
+                }
+            }
+            if (deletedPmsIds != null)
+            {
+                foreach (var id in deletedPmsIds)
+                {
+                    Entry(new UserPermission() { Id = id }).State = EntityState.Deleted;
+                }
+            }
+            SaveChanges();
         }
     }
 }

@@ -127,12 +127,15 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\PropertyController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\UserFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\ProductProperty.cs" />
     <Compile Include="Models\MenuDBContext.cs" />
+    <Compile Include="Models\PropertyDBContext.cs" />
     <Compile Include="Models\UserDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Entities\Menu.cs" />
@@ -239,6 +242,7 @@
     <Content Include="Views\User\UserManage.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Menu\MenuManage.cshtml" />
+    <Content Include="Views\Property\PropertyRepository.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

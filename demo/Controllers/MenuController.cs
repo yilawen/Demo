@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using demo.Models;
-using demo.Utilities.Entities;
+using demo.Models.Entities;
 using demo.Utilities;
 
 namespace demo.Controllers
@@ -90,14 +90,6 @@ namespace demo.Controllers
                 User user = (User)Session["user"];
                 List<Menu> menus = menuDB.GetMenusByUserId(user.Id);
                 return Helper.HomepageMenusFormat(menus);
-            }
-        }
-
-        public ActionResult test()
-        {
-            using (MenuDBContext menuDB = new MenuDBContext())
-            {
-                return Json(Helper.MenusFormatList(menuDB.GetAllMenus()), JsonRequestBehavior.AllowGet);
             }
         }
     }

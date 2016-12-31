@@ -1,0 +1,274 @@
+﻿@{
+    ViewBag.Title = "菜单管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css{
+<style type="text/css">
+        .tree-file,.tree-folder{
+        	width: 0;
+        }
+</style>
+}
+<!-- 保存成功 -->
+<div class="modal fade bs-example-modal-lg" id="conserve" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">保存成功</h4>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 新增用户Modal -->
+<div class="modal fade" id="addUserModal" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="addUserModalTitle">新增菜单</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" role="form" id="info_form">
+					<div class="form-group">
+						<label for="fMenu" class="col-sm-2 control-label">父级菜单</label>
+						<!-- <select id="fMenu" class="easyui-combobox" name="dept" style="width:200px;"></select>
+					-->
+					<input id="fMenu" type="text"></input>
+					</div>
+				<div class="form-group">
+					<label for="code" class="col-sm-2 control-label">编码</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control easyui-validatebox" id="code" name="code" autofocus="autofocus"  required="true"></div>
+				</div>
+				<div class="form-group">
+					<label for="name" class="col-sm-2 control-label">名称</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control easyui-validatebox" id="name" name="name" data-options="required:true"></div>
+				</div>
+				<div class="form-group">
+					<label for="linkAddress" class="col-sm-2 control-label">链接地址</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control easyui-validatebox" name="linkAddress" id="linkAddress" required="true"></div>
+				</div>
+				<div class="form-group">
+					<label for="sort" class="col-sm-2 control-label">排序</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" name="sort" id="sort"></div>
+				</div>
+				<div class="form-group optionRadio">
+					<label class="col-sm-2 control-label">状态</label>
+					<input type="radio"  name="optionsRadiosinline" id="radioFirst" style="margin-top: 7px;" value="启用">
+					启用
+					<input type="radio" name="optionsRadiosinline" id="radioSec" style="margin-left:15px;margin-top: 7px;" value="禁用">禁用</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			<button type="button" class="btn btn-primary" id="addUserModalBtn">保存</button>
+		</div>
+	</div>
+</div>
+</div>
+<table id="tg"></table>
+@section js{
+<script type="text/javascript">
+var root = getRootPath();
+$(function(){
+
+    $('#tg').treegrid({
+            url:getRootPath() + "/Menu/GetAllMenus",
+            idField:'Id',
+    		treeField:'Code',
+            columns:[[
+                {field:'Id',checkbox:true,width:100},
+                {field:'Code',title:'编码',width:100},
+                {field:'MenuName',title:'名称',width:100},
+                {field:'LinkUrl',title:'链接地址',width:300},
+                {field:'Sort',title:'排序',width:100},
+                {field:'Status',title:'状态',width:100, formatter: function(value,row,index) {
+                    if(value) return "启用";
+                    else return "禁用";
+                }},
+            ]],
+             toolbar: [
+                {
+                    iconCls:'icon-add',
+                    text: '新增',
+                    handler: function() {
+                    	$('#fMenu').combobox({
+						    url: root + '/Menu/GetAllParentMenus',
+						    valueField:'Id',
+						    textField:'MenuName',
+
+						});
+						// $.ajax({
+						//     url: root + '/Menu/GetAllParentMenus',
+						//     type: 'post',
+						//     dataType: 'json',
+						//     success: function(data){
+						//     	console.log(data)
+						//     }
+
+						// })
+                    	$('#addUserModal').modal('show');
+							 $("#code").val("");
+	                         $("#name").val("");
+	                         $("#linkAddress").val("");
+	                         $("#sort").val("");
+	                          //回车提交事件
+					         $("#addUserModal").keydown(function() {
+					             if (event.keyCode == "13") {
+					                 $('#addUserModalBtn').click();
+					             }
+					         });
+
+						$("#addUserModalBtn").click(function(){
+							if($("#code").val() == "" || $("#name").val() == "" || ( $("#radioFirst").prop("checked") == false && $("#radioSec").prop("checked") == false)){
+							}
+							else{
+								console.log((function(){
+									$("#fMenu").combobox({
+										formatter: function(row){
+											var opts = $(this).combobox('options');
+											return row[opts.valueField];
+										}
+									})
+								})());
+									 $.ajax({
+						                type: 'post',
+						                url: getRootPath() + "/Menu/AddOrUpdateMenu",
+						                dataType: 'json',
+						                data: {
+						                	Id: $("#fMenu").val(),
+						                    Code: $("#code").val(),
+						                    MenuName: $("#MenuName").val(),
+						                    LinkUrl: $("#LinkUrl").val(),
+						                    Sort: $("#Sort").val(),
+						                    Status: $(".optionRadio input:checked").val()
+						                },
+						                success: function (data) {
+						                    if (data.status) {
+						                    	$('#addUserModal').modal('hide');
+						                       	$('#conserve').modal('show');
+
+						                       setTimeout(function(){
+						                       	$('#conserve').modal('hide');
+						                       },1000)
+						                    } else {
+						                    	alert(data.message);
+						                    }
+						                }
+						            });
+							}
+						})
+						}
+						                  
+                },'-',
+                {
+                    iconCls:'icon-edit',
+                    text: '编辑',
+                    handler: function() {
+                        selectedRow = $("#tg").treegrid("getSelected");
+                        // if(selectedRow.ParentId == 0){
+                        // 	$("#code").prop("disa");
+                        // }
+                        if(!selectedRow) {
+                            alert("请先选择某个用户！");
+                            return;
+                        }
+                        $("#addUserModalTitle").text("编辑菜单");
+                         $("#code").val(selectedRow.Code);
+                         $("#name").val(selectedRow.MenuName);
+                         $("#linkAddress").val(selectedRow.LinkUrl);
+                         $("#sort").val(selectedRow.Sort);
+                        if(selectedRow.Status) {
+                            $("#radioFirst").prop("checked", true);
+                        }
+                        else {
+                           $("#rs").prop("checked", true);
+                        }
+                    	$('#addUserModal').modal('show');
+                        $("#addUserModal").keydown(function() {
+					             if (event.keyCode == "13") {
+					                 $('#addUserModalBtn').click();
+					             }
+					         });
+
+						$("#addUserModalBtn").click(function(){
+							if($("#code").val() == "" || $("#name").val() == "" || ( $("#radioFirst").prop("checked") == false && $("#radioSec").prop("checked") == false)){
+							}
+							else{
+									console.log($("#fMenu").combobox("getValues"));
+									 $.ajax({
+						                type: 'post',
+						                url: getRootPath() + "/Menu/AddOrUpdateMenu",
+						                dataType: 'json',
+						                data: {
+						                	Id: $("#fMenu").val(),
+						                    Code: $("#code").val(),
+						                    MenuName: $("#MenuName").val(),
+						                    LinkUrl: $("#LinkUrl").val(),
+						                    Sort: $("#Sort").val(),
+						                    Status: $(".optionRadio input:checked").val()
+						                },
+						                success: function (data) {
+						                    if (data) {
+						                    	$('#addUserModal').modal('hide');
+						                       	$('#conserve').modal('show');
+
+						                       setTimeout(function(){
+						                       	$('#conserve').modal('hide');
+						                       },1000)
+						                    }
+						                }
+						            });
+							}
+						})
+                    }
+                },'-',
+                {
+                    iconCls:'icon-remove',
+                    text: '权限管理',
+                    handler: function() {
+                        selectedRow = $("#tg").datagrid("getSelected");
+                        if(!selectedRow) {
+                            alert("请先选择某个用户！");
+                            return;
+                        }
+                       
+                    }
+                },'-',
+                {
+                    iconCls:'icon-cut',
+                    text: '删除',
+                    handler: function() {
+                        selectedRow = $("#tg").treegrid("getSelected");
+                        if(!selectedRow) {
+                            alert("请先选择某个用户！");
+                            return;
+                        }
+                        if(window.confirm("确定要删除用户吗？")) {
+                            $.ajax({
+                                url: root + "/Menu/DeleteMenu",
+                                type: "post",
+                                dataType: "json",
+                                data: {
+                                    Id: selectedRow.Id
+                                },
+                                success: function(result) {
+                                    if(result) $("#tg").treegrid("reload");
+                                },
+                                error: function() {
+                                    alert("服务器出错");
+                                }
+                            })
+                        }
+                    }
+                }
+            ]
+        });
+})
+
+
+
+</script>
+}

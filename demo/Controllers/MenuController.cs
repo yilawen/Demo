@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using demo.Models;
 using demo.Models.Entities;
 using demo.Utilities;
+using System.Web.Script.Serialization;
 
 namespace demo.Controllers
 {
@@ -20,50 +21,53 @@ namespace demo.Controllers
             return View("MenuManage");
         }
 
-        public ActionResult AddOrUpdateMenu(Menu menu)
+        public ActionResult AddOrUpdateMenu(string menuStr, string[] properties)
         {
-            Dictionary<string, object> result = new Dictionary<string, object>();
-            result.Add("status", false);
-            result.Add("message", null);
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            Menu menu = serializer.Deserialize<Menu>(menuStr);
             using (MenuDBContext menuDB = new MenuDBContext())
             {
                 try
                 {
-                    if (menu.Id == 0 && menuDB.isMenuExists(menu))
+                    if (menu.Id == 0)
                     {
-                        result["message"] = "菜单已存在";
+                        if (menuDB.isMenuExists(menu))
+                        {
+                            return Json(new { status = false, message = "菜单已存在" });
+                        }
+                        menuDB.AddMenu(menu);
+                        return Json(new { status = true });
                     }
                     else
                     {
-                        menuDB.AddOrUpdateMenu(menu);
-                        result["status"] = true;
+                        if (properties.Contains("MenuName") && menuDB.isMenuNameExists(menu))
+                        {
+                            return Json(new { status = false, message = "菜单已存在" });
+                        }
+                        menuDB.UpdateMenu(menu, properties);
+                        return Json(new { status = true });
                     }
                 }
                 catch (Exception ex)
                 {
-                    result["message"] = ex.Message;
+                    return Json(new { status = false, message = ex.Message });
                 }
-                return Json(result);
             }
         }
 
         public ActionResult DeleteMenu(Menu menu)
         {
-            Dictionary<string, object> result = new Dictionary<string, object>();
-            result.Add("status", false);
-            result.Add("message", null);
             using (MenuDBContext menuDB = new MenuDBContext())
             {
                 try
                 {
                     menuDB.DeleteMenu(menu);
-                    result["status"] = true;
+                    return Json(new { status = true });
                 }
                 catch (Exception ex)
                 {
-                    result["message"] = ex.Message;
+                    return Json(new { status = false, ex.Message });
                 }
-                return Json(result);
             }
         }
 

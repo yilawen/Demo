@@ -11,97 +11,79 @@
 }
 <!-- 保存成功 -->
 @section bodyElement{
-<div class="modal fade bs-example-modal-lg" id="conserve" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">保存成功</h4>
+    <div class="modal fade bs-example-modal-lg" id="conserve" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">保存成功</h4>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- 新增用户Modal -->
-<div class="modal fade" id="menuModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 id="menuModalTitle" class="modal-title">新增菜单</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form">
-                    <div class="form-group">
-                        <label class="col-sm-2 col-sm-offset-1 control-label">父级菜单</label>
-                        <div class="col-sm-7">
-                            <select id="menuParent" class="form-control"></select>
+    <!-- 新增用户Modal -->
+    <div class="modal fade" id="menuModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="menuModalTitle" class="modal-title">新增菜单</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-offset-1 control-label">父级菜单</label>
+                            <div class="col-sm-7">
+                                <select id="menuParent" class="form-control"></select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="code" class="col-sm-2 col-sm-offset-1 control-label">编码</label>
-                        <div class="col-sm-7">
-                            <input type="text" class="form-control" id="code" name="code" autofocus="autofocus">
+                        <div class="form-group">
+                            <label for="code" class="col-sm-2 col-sm-offset-1 control-label">编码</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="code" name="code" autofocus="autofocus">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="name" class="col-sm-2 col-sm-offset-1 control-label">名称</label>
-                        <div class="col-sm-7">
-                            <input type="text" class="form-control" id="name" name="name">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 col-sm-offset-1 control-label">名称</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="name" name="name">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="linkAddress" class="col-sm-2 col-sm-offset-1 control-label">链接地址</label>
-                        <div class="col-sm-7">
-                            <input type="text" class="form-control" name="linkAddress" id="linkAddress">
+                        <div class="form-group">
+                            <label for="linkAddress" class="col-sm-2 col-sm-offset-1 control-label">链接地址</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name="linkAddress" id="linkAddress">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="sort" class="col-sm-2 col-sm-offset-1 control-label">排序</label>
-                        <div class="col-sm-7">
-                            <input type="text" class="form-control" name="sort" id="sort">
+                        <div class="form-group">
+                            <label for="sort" class="col-sm-2 col-sm-offset-1 control-label">排序</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name="sort" id="sort">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group optionRadio">
-                        <label class="col-sm-2 col-sm-offset-1 control-label">状态</label>
-                        <div class="checkbox col-sm-offset-4">
-                            <label>
-                                <input type="checkbox" id="status" name="status"> 启用
-                            </label>
+                        <div class="form-group optionRadio">
+                            <label class="col-sm-2 col-sm-offset-1 control-label">状态</label>
+                            <div class="checkbox col-sm-offset-4">
+                                <label>
+                                    <input type="checkbox" id="status" name="status"> 启用
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button id="menuSave" type="button" class="btn btn-primary">保存</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button id="menuSave" type="button" class="btn btn-primary">保存</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 }
 
 <table id="tg"></table>
 
 @section js{
     <script type="text/javascript">
-        var root = getRootPath();
-
-        function createOptions(selectNode)
-        {
-            $.ajax({
-                url: root + '/Menu/GetAllParentMenus',
-                type: 'post',
-                dataType: 'json',
-                async: false,
-                success: function(data){
-                    selectNode.empty();
-                    selectNode.append($("<option>").val(0).text("一级菜单"));
-                    $.each(data, function(index, menu) {
-                        selectNode.append($("<option>").val(menu.Id).text(menu.MenuName));
-                    });
-                }
-            });
-        }
-
         $(function () {
+            var root = getRootPath();
             var tg = $("#tg");
             var menuParentBox = $("#menuParent");
             var codeBox = $("#code");
@@ -111,6 +93,23 @@
             var menuModal = $("#menuModal");
             var menuModalTitle = $("#menuModalTitle");
             var statusBox = $("#status");
+
+            function createOptions(selectNode)
+            {
+                $.ajax({
+                    url: root + '/Menu/GetAllParentMenus',
+                    type: 'post',
+                    dataType: 'json',
+                    async: false,
+                    success: function(data){
+                        selectNode.empty();
+                        selectNode.append($("<option>").val(0).text("一级菜单"));
+                        $.each(data, function(index, menu) {
+                            selectNode.append($("<option>").val(menu.Id).text(menu.MenuName));
+                        });
+                    }
+                });
+            }
 
             tg.treegrid({
                 url: getRootPath() + "/Menu/GetAllMenus",
@@ -180,7 +179,7 @@
                         iconCls: 'icon-cut',
                         text: '删除',
                         handler: function () {
-                            selectedRow = $("#tg").treegrid("getSelected");
+                            selectedRow = tg.treegrid("getSelected");
                             if (!selectedRow) {
                                 alert("请先选择某个菜单！");
                                 return;
@@ -194,7 +193,7 @@
                                         Id: selectedRow.Id
                                     },
                                     success: function (result) {
-                                        if (result.status) $("#tg").treegrid("reload");
+                                        if (result.status) tg.treegrid("reload");
                                         else alert(result.message);
                                     },
                                     error: function () {
@@ -212,23 +211,32 @@
                     alert("编码或名称或链接地址不能为空！");
                     return;
                 }
-                var data = new Object();
-                data.Code = codeBox.val();
-                data.MenuName = menuNameBox.val();
-                data.LinkUrl = linkBox.val();
-                data.Sort = sortBox.val();
-                data.ParentId = menuParentBox.val();
-                if(statusBox.prop("checked")) {
-                    data.Status = true;
-                }
+                var menu = new Object();
+                var properties = [];
                 if(codeBox.prop("disabled")) {
-                   data.Id = selectedRow.Id;
+                   menu.Id = selectedRow.Id;
+                   if(menuNameBox.val().trim() != selectedRow.MenuName) properties.push("MenuName");
+                   properties.push("LinkUrl");
+                   properties.push("Status");
+                   properties.push("Sort");
+                   properties.push("ParentId");
                 }
+                menu.Code = codeBox.val();
+                menu.MenuName = menuNameBox.val();
+                menu.LinkUrl = linkBox.val();
+                menu.Sort = sortBox.val();
+                menu.ParentId = menuParentBox.val();
+                menu.Status = statusBox.prop("checked") ? true : false;
+
                 $.ajax({
                     type: 'post',
                     url: getRootPath() + "/Menu/AddOrUpdateMenu",
                     dataType: 'json',
-                    data: data,
+                    traditional: true,
+                    data: {
+                        menuStr: JSON.stringify(menu),
+                        properties: properties
+                    },
                     success: function (result) {
                         if (result.status) {
                             menuModal.modal("hide");

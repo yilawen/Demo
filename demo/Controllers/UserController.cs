@@ -25,11 +25,8 @@ namespace demo.Controllers
             } else return View("Login");
         }
 
-        public JsonResult Login(string username, string password)
+        public ActionResult Login(string username, string password)
         {
-            Dictionary<string, object> result = new Dictionary<string, object>();
-            result.Add("status", false);
-            result.Add("message", null);
             using (UserDBContext userDB = new UserDBContext())
             {
                 try
@@ -41,18 +38,17 @@ namespace demo.Controllers
                         user.LastLoginIP = Request.ServerVariables["REMOTE_ADDR"];
                         Session["user"] = user;
                         userDB.UpdateUser(user, new string[] { "LastLoginDate", "LastLoginIP" });
-                        result["status"] = true;
+                        return Json(new { status = true });
                     }
                     else
                     {
-                        result["message"] = "用户名或密码不正确";
+                        return Json(new { status = false, message = "用户名或密码不正确" });
                     }
                 }
                 catch (Exception ex)
                 {
-                    result["message"] = ex.Message;
+                    return Json(new { status = false, message = ex.Message });
                 }
-                return Json(result);
             }
         }
 
@@ -90,36 +86,32 @@ namespace demo.Controllers
 
         [HttpPost]
         [CheckUser]
-        public JsonResult AddUser(User user)
+        public ActionResult AddUser(User user)
         {
-            Dictionary<string, object> result = new Dictionary<string, object>();
-            result.Add("status", false);
-            result.Add("message", null);
             using (UserDBContext userDB = new UserDBContext())
             {
                 try
                 {
                     if (userDB.GetUserByUsername(user.Username) != null || userDB.GetUserByNickname(user.Nickname) != null)
                     {
-                        result["message"] = "已存在的昵称或用户名";
+                        return Json(new { status = false, message = "已存在的昵称或用户名" });
                     }
                     else
                     {
                         userDB.AddUser(user);
-                        result["status"] = true;
+                        return Json(new { status = true });
                     }
                 }
                 catch(Exception ex)
                 {
-                    result["message"] = ex.Message;
+                    return Json(new { status = false, message = ex.Message });
                 }
-                return Json(result);
             }
         }
 
         [HttpPost]
         [CheckUser]
-        public JsonResult UpdateUserInfo(string userStr, string[] properties)
+        public ActionResult UpdateUserInfo(string userStr, string[] properties)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             User user = serializer.Deserialize<User>(userStr);
@@ -163,23 +155,19 @@ namespace demo.Controllers
 
         [HttpPost]
         [CheckUser]
-        public JsonResult DeleteUser(string username)
+        public ActionResult DeleteUser(string username)
         {
-            Dictionary<string, object> result = new Dictionary<string, object>();
-            result.Add("status", false);
-            result.Add("message", null);
             using(UserDBContext userDB = new UserDBContext())
             {
                 try
                 {
                     userDB.DeleteUser(username);
-                    result["status"] = true;
+                    return Json(new { status = true });
                 }
                 catch(Exception ex)
                 {
-                    result["message"] = ex.Message;
+                    return Json(new { status = false, message = ex.Message });
                 }
-                return Json(result);
             }
         }
 
@@ -224,21 +212,17 @@ namespace demo.Controllers
 
         public ActionResult UpdateUserPemissions(string userId, int[] addedPmsIds, int[] deletedPmsIds)
         {
-            Dictionary<string, object> result = new Dictionary<string, object>();
-            result.Add("status", false);
-            result.Add("message", null);
             using (UserDBContext userDB = new UserDBContext())
             {
                 try
                 {
                     userDB.UpdateUserPermissions(userId, addedPmsIds, deletedPmsIds);
-                    result["status"] = true;
+                    return Json(new { status = true });
                 }
                 catch (Exception ex)
                 {
-                    result["message"] = ex.Message;
+                    return Json(new { status = false, message = ex.Message });
                 }
-                return Json(result);
             }
         }
     }

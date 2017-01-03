@@ -31,19 +31,28 @@ namespace demo.Models
             else return false;
         }
 
-        public void AddOrUpdateMenu(Menu menu)
+        public bool isMenuNameExists(Menu menu)
         {
-            if (menu.Id == 0)
+            var result = Menus.Where(m => m.ParentId == menu.ParentId && m.MenuName == menu.MenuName).FirstOrDefault();
+            if (result != null) return true;
+            else return false;
+        }
+
+        public void AddMenu(Menu menu)
+        {
+            Menus.Add(menu);
+            SaveChanges();
+        }
+
+        public void UpdateMenu(Menu menu, string[] properties)
+        {
+            Menus.Attach(menu);
+            var entry = Entry(menu);
+            foreach (var propertyName in properties)
             {
-                this.Menus.Add(menu);
-                this.SaveChanges();
+                entry.Property(propertyName.ToString()).IsModified = true;
             }
-            else
-            {
-                this.Menus.Attach(menu);
-                this.Entry(menu).State = EntityState.Modified;
-                this.SaveChanges();
-            }
+            SaveChanges();
         }
 
         public void DeleteMenu(Menu menu)

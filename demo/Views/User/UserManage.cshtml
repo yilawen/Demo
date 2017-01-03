@@ -97,19 +97,6 @@
 }
 @section js{
 <script type="text/javascript">
-    var root = getRootPath();
-
-    function createCheckbox(id, value, inputClass, text)
-    {
-        var label = $("<label class='checkbox-inline'><label>");
-        var input = $("<input type='checkbox'>");
-        input.addClass(inputClass);
-        if(id) input.prop("id", id);
-        if(value) input.prop("value", value);
-        label.append(input).append(text);
-        return label;
-    }
-
     $(function() {
         var usernameBox = $("#username");
         var nicknameBox = $("#nickname");
@@ -124,6 +111,18 @@
         var infoForm = $("#info_form");
         var selectedRow = null;
         var oldPermissions = null;
+        var root = getRootPath();
+
+        function createCheckbox(id, value, inputClass, text)
+        {
+            var label = $("<label class='checkbox-inline'><label>");
+            var input = $("<input type='checkbox'>");
+            input.addClass(inputClass);
+            if(id) input.prop("id", id);
+            if(value) input.prop("value", value);
+            label.append(input).append(text);
+            return label;
+        }
 
         statusBox.on("click", function() {
             if($(this).prop("checked")) $(this).val("1");
@@ -209,7 +208,7 @@
                             type: "post",
                             async: false,
                             success: function(data) {
-                                permissionContent.html("");
+                                permissionContent.empty();
                                 $.each(data, function(index, menuParent) {
                                     var panel = $("<div class='panel panel-info'><div>");
                                     var panelHeader = $("<div class='panel-heading'></div>");

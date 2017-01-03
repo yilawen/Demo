@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
-using demo.Models;
-using demo.Models.Entities;
+using Wood.Models;
+using Wood.Models.Entities;
 
-namespace demo.Utilities
+namespace Wood.Utilities
 {
     public class Helper
     {

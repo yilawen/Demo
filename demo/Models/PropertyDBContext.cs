@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
-using demo.Utilities;
+using Wood.Utilities;
 using System.Data;
-using demo.Models.Entities;
+using Wood.Models.Entities;
 
-namespace demo.Models
+namespace Wood.Models
 {
     public class PropertyDBContext : DbContext
     {

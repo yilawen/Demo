@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace demo.Models.Entities
+namespace Wood.Models.Entities
 {
     [Table("ProductProperty", Schema = "dbo")]
     public class ProductProperty

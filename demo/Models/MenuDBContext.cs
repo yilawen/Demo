@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
-using demo.Utilities;
-using demo.Models.Entities;
+using Wood.Utilities;
+using Wood.Models.Entities;
 using System.Data;
 
-namespace demo.Models
+namespace Wood.Models
 {
     public class MenuDBContext : DbContext
     {

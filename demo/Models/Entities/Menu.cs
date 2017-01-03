@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace demo.Models.Entities
+namespace Wood.Models.Entities
 {
     [Table("Menus", Schema = "dbo")]
     public class Menu

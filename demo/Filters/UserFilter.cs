@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace demo.Filters
+namespace Wood.Filters
 {
     public class CheckUserAttribute : ActionFilterAttribute  
     {

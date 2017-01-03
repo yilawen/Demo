@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using demo.Models;
-using demo.Models.Entities;
-using demo.Utilities;
+using Wood.Models;
+using Wood.Models.Entities;
+using Wood.Utilities;
 
-namespace demo.Controllers
+namespace Wood.Controllers
 {
     public class PropertyController : Controller
     {

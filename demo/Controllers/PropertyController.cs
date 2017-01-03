@@ -9,7 +9,7 @@ using Wood.Utilities;
 
 namespace Wood.Controllers
 {
-    public class PropertyController : Controller
+    public class PropertyController : BaseController
     {
         //
         // GET: /Property/
@@ -47,16 +47,6 @@ namespace Wood.Controllers
                 {
                     return Json(new { status = false, message = ex.Message });
                 }
-            }
-        }
-
-        public List<Dictionary<string, object>> GetHomeMenus()
-        {
-            using (MenuDBContext menuDB = new MenuDBContext())
-            {
-                User user = (User)Session["user"];
-                List<Menu> menus = menuDB.GetMenusByUserId(user.Id);
-                return Helper.HomepageMenusFormat(menus);
             }
         }
     }

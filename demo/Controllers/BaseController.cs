@@ -17,7 +17,7 @@ namespace Wood.Controllers
             {
                 User user = (User)Session["user"];
                 List<Menu> menus = menuDB.GetMenusByUserId(user.Id);
-                return Helper.HomepageMenusFormat(menus);
+                return Helper.HomepageMenusFormat(menus, Convert.ToInt32(Request.QueryString["parentId"]));
             }
         }
     }

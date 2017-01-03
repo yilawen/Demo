@@ -10,14 +10,14 @@ using System.Web.Script.Serialization;
 
 namespace Wood.Controllers
 {
-    public class MenuController : Controller
+    public class MenuController : BaseController
     {
         //
         // GET: /Menu/
 
         public ActionResult MenuManage()
         {
-            ViewBag.menus = this.GetHomeMenus();
+            ViewBag.menus = GetHomeMenus();
             return View("MenuManage");
         }
 
@@ -84,16 +84,6 @@ namespace Wood.Controllers
             using (MenuDBContext menuDB = new MenuDBContext())
             {
                 return Json(Helper.MenusFormatNest(menuDB.GetAllMenus()), JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public List<Dictionary<string, object>> GetHomeMenus()
-        {
-            using (MenuDBContext menuDB = new MenuDBContext())
-            {
-                User user = (User)Session["user"];
-                List<Menu> menus = menuDB.GetMenusByUserId(user.Id);
-                return Helper.HomepageMenusFormat(menus);
             }
         }
     }

@@ -32,11 +32,12 @@
         <div data-options="region:'west',split:true" title="菜单" style="width:200px;">
             <div class="easyui-accordion" data-options="fit:true">
                 @foreach(var menuParent in ViewBag.menus) {
-                    <div title="@menuParent["MenuName"]" style="overflow:auto;padding:10px;">
+                    <div title="@menuParent["MenuName"]" data-options="selected:@menuParent["selected"]"
+                        style="overflow:auto;padding:10px;">
                         <ul class="home-menu">
                             @foreach(var menuChild in @menuParent["Children"]) {
                                 <li>
-                                    <a href="@menuChild["LinkUrl"]">
+                                    <a href="@menuChild["LinkUrl"]?parentId=@menuParent["Id"]">
                                         <span class="glyphicon glyphicon-play"></span>
                                         @menuChild["MenuName"]
                                     </a>
@@ -58,7 +59,9 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                    </button>
                     <h4 class="modal-title">密码修改</h4>
                 </div>
                 <div class="modal-body">

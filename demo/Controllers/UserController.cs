@@ -14,7 +14,7 @@ using Wood.Models.Entities;
 
 namespace Wood.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         //
         // GET: /User/
@@ -64,7 +64,7 @@ namespace Wood.Controllers
         {
             using (UserDBContext userDB = new UserDBContext())
             {
-                ViewBag.menus = this.GetHomeMenus();
+                ViewBag.menus = GetHomeMenus();
                 ViewBag.users = userDB.GetAllUsers();
                 return View("UserManage");
             }
@@ -194,19 +194,9 @@ namespace Wood.Controllers
             {
                 User user = (User)Session["user"];
                 List<Menu> menus = menuDB.GetMenusByUserId(user.Id);
-                ViewBag.menus = this.GetHomeMenus();
+                ViewBag.menus = GetHomeMenus();
                 ViewBag.nickname = user.Nickname??user.Username;
                 return View("Index");
-            }
-        }
-
-        public List<Dictionary<string, object>> GetHomeMenus()
-        {
-            using (MenuDBContext menuDB = new MenuDBContext())
-            {
-                User user = (User)Session["user"];
-                List<Menu> menus = menuDB.GetMenusByUserId(user.Id);
-                return Helper.HomepageMenusFormat(menus);
             }
         }
 

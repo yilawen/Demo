@@ -16,7 +16,7 @@ namespace Wood.Utilities
             return FormsAuthentication.HashPasswordForStoringInConfigFile(str, "MD5").ToLower();
         }
 
-        public static List<Dictionary<string, object>> HomepageMenusFormat(List<Menu> menus)
+        public static List<Dictionary<string, object>> HomepageMenusFormat(List<Menu> menus, int selectedMenuId)
         {
             if (menus.Count() == 0) return null;
             List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
@@ -28,6 +28,14 @@ namespace Wood.Utilities
                     menuParent.Add("Id", menu.Id);
                     menuParent.Add("MenuName", menu.MenuName);
                     menuParent.Add("Children", new List<Dictionary<string, string>>());
+                    if (menu.Id == selectedMenuId)
+                    {
+                        menuParent.Add("selected", "true");
+                    }
+                    else
+                    {
+                        menuParent.Add("selected", "false");
+                    }
                     result.Add(menuParent);
                 }
             });

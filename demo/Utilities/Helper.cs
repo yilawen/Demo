@@ -60,16 +60,21 @@ namespace demo.Utilities
                     menuParent.Add("LinkUrl", menu.LinkUrl);
                     menuParent.Add("Sort", menu.Sort);
                     menuParent.Add("Status", menu.Status);
-                    menuParent.Add("children", new List<Menu>());
+                    menuParent.Add("state", "closed");
+                   // menuParent.Add("children", new List<Menu>());
                     result.Add(menuParent);
                 }
             });
             menus.ForEach(menu =>
             {
-                int index = result.FindIndex(mP => Convert.ToInt32(mP["Id"]) == menu.ParentId);
-                if (index != -1)
+                if (menu.ParentId != 0)
                 {
-                    ((List<Menu>)result[index]["children"]).Add(menu);
+                    int index = result.FindIndex(mP => Convert.ToInt32(mP["Id"]) == menu.ParentId);
+                    if (index != -1)
+                    {
+                        if (!((Dictionary<string, object>)result[index]).ContainsKey("children")) ((Dictionary<string, object>)result[index]).Add("children", new List<Menu>());
+                        ((List<Menu>)result[index]["children"]).Add(menu);
+                    }
                 }
             });
             return result;

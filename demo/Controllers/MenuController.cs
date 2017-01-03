@@ -29,7 +29,7 @@ namespace demo.Controllers
             {
                 try
                 {
-                    if (menuDB.isMenuExists(menu))
+                    if (menu.Id == 0 && menuDB.isMenuExists(menu))
                     {
                         result["message"] = "菜单已存在";
                     }
@@ -79,7 +79,7 @@ namespace demo.Controllers
         {
             using (MenuDBContext menuDB = new MenuDBContext())
             {
-                return Json(Helper.MenusFormatNest(menuDB.GetAllMenus()));
+                return Json(Helper.MenusFormatNest(menuDB.GetAllMenus()), JsonRequestBehavior.AllowGet);
             }
         }
 

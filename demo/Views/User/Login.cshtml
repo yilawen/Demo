@@ -84,7 +84,8 @@
         $(function () {
             var usernameBox = $("#username");
             var passwordBox = $("#password");
-            $("#btn_login").on("click", function () {
+            var loginBtn = $("#btn_login");
+            loginBtn.on("click", function () {
                 if(!usernameBox.val() || !passwordBox.val()) {
                     alert("用户名和密码不能为空!");
                     return;
@@ -97,7 +98,13 @@
                         Username: usernameBox.val(),
                         Password: passwordBox.val()
                     },
+                    beforeSend: function() {
+                        loginBtn.prop("disabled", true);
+                        loginBtn.text("正在登录...");
+                    },
                     success: function (result) {
+                        loginBtn.prop("disabled", false);
+                        loginBtn.text("登录");
                         if (result.status) {
                             window.location.href = root + "/user/notice";
                         } else {
@@ -107,12 +114,8 @@
                 });
             });
 
-            usernameBox.on("keydown", function() {
-                if(event.keyCode == 13) $("#btn_login").click();
-            });
-
-            passwordBox.on("keydown", function() {
-                if(event.keyCode == 13) $("#btn_login").click();
+            $("#login_box").on("keydown", "input", function(event) {
+                if(event.keyCode == 13) loginBtn.click();
             });
         })
     </script>

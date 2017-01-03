@@ -119,35 +119,28 @@ namespace demo.Controllers
 
         [HttpPost]
         [CheckUser]
-        public JsonResult UpdateUserInfo()
+        public JsonResult UpdateUserInfo(string userStr, string[] properties)
         {
-            Dictionary<string, object> result = new Dictionary<string, object>();
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            result.Add("status", false);
-            result.Add("message", null);
-            string userStr = Request.Form["user"];
-            string propertiesStr = Request.Form["properties"];
             User user = serializer.Deserialize<User>(userStr);
-            string[] properties = propertiesStr.Split(',');
             using (UserDBContext userDB = new UserDBContext())
             {
                 try
                 {
                     if (properties.Contains("Nickname") && userDB.GetUserByNickname(user.Nickname) != null)
                     {
-                        result["message"] = "已存在的昵称";
+                        return Json(new { status = false, message = "已存在该昵称" });
                     }
                     else
                     {
                         userDB.UpdateUser(user, properties);
-                        result["status"] = true;
+                        return Json(new { status = true });
                     }
                 }
                 catch (Exception ex)
                 {
-                    result["message"] = ex.Message;
+                    return Json(new { status = false, message = ex.Message });
                 }
-                return Json(result);
             }
         }
 

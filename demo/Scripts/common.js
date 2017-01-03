@@ -1,4 +1,5 @@
-﻿function getRootPath() {
+﻿function getRootPath()
+{
     //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
     var curWwwPath = window.document.location.href;
     //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
@@ -12,7 +13,8 @@
     //return localhostPaht;
 };
 
-function getDate(dateSource) {
+function getDate(dateSource)
+{
     var date = new Date(dateSource);
     var Y = date.getFullYear() + '-';
     var M = date.getMonth() + '-';

@@ -4,9 +4,6 @@
 }
 @section css{
     <style type="text/css">
-        #users-table td, #users-table th {
-            text-align: center;
-        }
         /*bootstrap兼容问题和easyui的bug*/
         .panel-header, .panel-body {
             border-width: 0px;
@@ -29,6 +26,7 @@
 }
 <table id="dg"></table>
 <!-- modal -->
+@section bodyElement{
 <div id="user_modal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -42,30 +40,30 @@
           <div class="modal-body">
             <form class="form-horizontal" role="form" id="info_form">
                 <div class="form-group">
-                    <label for="nickname" class="col-sm-2 control-label">用户昵称</label>
+                    <label for="nickname" class="col-sm-2 col-sm-offset-1 control-label">用户昵称</label>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="nickname" name="nickname">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="username" class="col-sm-2 control-label">登录账号</label>
+                    <label for="username" class="col-sm-2 col-sm-offset-1 control-label">登录账号</label>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="username" name="username" disabled="disabled">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="password" class="col-sm-2 control-label">登录密码</label>
+                    <label for="password" class="col-sm-2 col-sm-offset-1 control-label">登录密码</label>
                     <div class="col-sm-8">
                         <input type="password" class="form-control" name="password" id="password">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="ack_password" class="col-sm-2 control-label">确认密码</label>
+                    <label for="ack_password" class="col-sm-2 col-sm-offset-1 control-label">确认密码</label>
                     <div class="col-sm-8">
                         <input type="password" class="form-control" name="ack_password" id="ack_password">
                     </div>
                 </div>
-                <div class="checkbox col-sm-offset-2">
+                <div class="checkbox col-sm-offset-3">
                     <label>
                         <input type="checkbox" id="status" name="status" value="1"> 启用
                     </label>
@@ -96,7 +94,7 @@
     </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
+}
 @section js{
 <script type="text/javascript">
     var root = getRootPath();
@@ -300,14 +298,15 @@
                     type: "post",
                     dataType: "json",
                     data: {
-                        user:JSON.stringify({
+                        userStr:JSON.stringify({
                             Id: selectedRow.Id,
                             Nickname: nicknameBox.val(),
                             Password: passwordBox.val(),
                             Status: statusBox.val()
                         }),
-                        properties: properties.toString()
+                        properties: properties
                     },
+                    traditional: true,
                     success: function(result) {
                         if(result.status) {
                             alert("修改成功!");

@@ -19,9 +19,11 @@
                 },
                 success: function(result) {
                     if(result.status) {
-                        alert("修改成功！");
                         $("#current_user_modal").modal("hide");
-                        window.location.href = root + "/user/logout";
+                         saveSuccessModal();
+                        setTimeout(function(){
+                            window.location.href = root + "/user/logout";
+                        },1000)
                     } else {
                         alert(result.message);
                     }
@@ -30,8 +32,11 @@
         }
     });
 
-    $("btn_current_pwd").on("click", function() {
+    $("#btn_current_pwd").on("click", function() {
         currentPasswordBox.val("");
         currentAckPasswordBox.val("");
     });
+    $("body").on("keydown", "input", function(event) {
+                if(event.keyCode == 13) $("#current_user_save").click();
+         });
 })

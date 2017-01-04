@@ -3,97 +3,97 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section css{
-    <style type="text/css">
-        /*bootstrap兼容问题和easyui的bug*/
-        .panel-header, .panel-body {
-            border-width: 0px;
-        }
+<style type="text/css">
+  /*bootstrap兼容问题和easyui的bug*/
+  .panel-header, .panel-body {
+      border-width: 0px;
+  }
 
-        #permission_modal .panel {
-            margin-bottom: 20px;
-        }
+  #permission_modal .panel {
+      margin-bottom: 20px;
+  }
 
-        #permission_modal .panel-heading {
-            border-bottom: 1px solid transparent;
-        }
+  #permission_modal .panel-heading {
+      border-bottom: 1px solid transparent;
+  }
 
-        #permission_modal .panel-body{
-            padding: 10px;
-            border: 1px solid #d9edf7;
-            border-top: none;
-        }
-    </style>
+  #permission_modal .panel-body{
+      padding: 10px;
+      border: 1px solid #d9edf7;
+      border-top: none;
+  }
+</style>
 }
 <table id="dg"></table>
 <!-- modal -->
 @section bodyElement{
 <div id="user_modal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">
-                  <span aria-hidden="true">&times;</span>
-                  <span class="sr-only">Close</span>
-              </button>
-              <h4 id="modal_title" class="modal-title"></h4>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 id="modal_title" class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" role="form" id="info_form">
+          <div class="form-group">
+            <label for="nickname" class="col-sm-2 col-sm-offset-1 control-label">用户昵称</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="nickname" name="nickname"></div>
           </div>
-          <div class="modal-body">
-            <form class="form-horizontal" role="form" id="info_form">
-                <div class="form-group">
-                    <label for="nickname" class="col-sm-2 col-sm-offset-1 control-label">用户昵称</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="nickname" name="nickname">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="username" class="col-sm-2 col-sm-offset-1 control-label">登录账号</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="username" name="username" disabled="disabled">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="password" class="col-sm-2 col-sm-offset-1 control-label">登录密码</label>
-                    <div class="col-sm-8">
-                        <input type="password" class="form-control" name="password" id="password">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="ack_password" class="col-sm-2 col-sm-offset-1 control-label">确认密码</label>
-                    <div class="col-sm-8">
-                        <input type="password" class="form-control" name="ack_password" id="ack_password">
-                    </div>
-                </div>
-                <div class="checkbox col-sm-offset-3">
-                    <label>
-                        <input type="checkbox" id="status" name="status" value="1"> 启用
-                    </label>
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button id="user_save" type="button" class="btn btn-primary">保存</button>
-        </div>
-    </div><!-- /.modal-content -->
-</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
+          <div class="form-group">
+            <label for="username" class="col-sm-2 col-sm-offset-1 control-label">登录账号</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="username" name="username" disabled="disabled"></div>
+          </div>
+          <div class="form-group">
+            <label for="password" class="col-sm-2 col-sm-offset-1 control-label">登录密码</label>
+            <div class="col-sm-8">
+              <input type="password" class="form-control" name="password" id="password"></div>
+          </div>
+          <div class="form-group">
+            <label for="ack_password" class="col-sm-2 col-sm-offset-1 control-label">确认密码</label>
+            <div class="col-sm-8">
+              <input type="password" class="form-control" name="ack_password" id="ack_password"></div>
+          </div>
+          <div class="checkbox col-sm-offset-3">
+            <label>
+              <input type="checkbox" id="status" name="status" value="1">启用</label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button id="user_save" type="button" class="btn btn-primary">保存</button>
+      </div>
+    </div>
+    <!-- /.modal-content --> </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 <div id="permission_modal" class="modal fade">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
         <h4 class="modal-title">权限设置</h4>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button id="permission_save" type="button" class="btn btn-primary">保存</button>
+      </div>
     </div>
-    <div class="modal-body">
-    </div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-    <button id="permission_save" type="button" class="btn btn-primary">保存</button>
+    <!-- /.modal-content --> </div>
+  <!-- /.modal-dialog -->
 </div>
-    </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+<!-- /.modal -->
 }
 @section js{
 <script type="text/javascript">
@@ -309,8 +309,8 @@
                     traditional: true,
                     success: function(result) {
                         if(result.status) {
-                            alert("修改成功!");
                             userModal.modal("hide");
+                            saveSuccessModal();
                             dg.datagrid("reload");
                         }
                         else alert(result.message);
@@ -340,8 +340,8 @@
                     },
                     success: function(result) {
                         if(result.status) {
-                            alert("增加成功！");
                             userModal.modal("hide");
+                            saveSuccessModal();
                             dg.datagrid("reload");
                         } else {
                             alert(result.message);
@@ -353,7 +353,6 @@
                 })
             }
         });
-
 
         permissionContent.on("click", ".checkbox-all", function() {
             var panelBody = $(this).parent().parent().next();
@@ -378,8 +377,6 @@
             checkedPermissions.each(function() {
                 newPermissions.push(parseInt($(this).val()));
             });
-
-
             for(var i = 0; i < newPermissions.length; i++) {
                 isAdded = true;
                 for(var j = 0; j < oldPermissions.length; j++) {
@@ -408,8 +405,8 @@
                 traditional: true,
                 success: function(result) {
                     if(result.status) {
-                        alert("修改成功！");
                         permissionModal.modal("hide");
+                        saveSuccessModal();
                     } else {
                         alert(result.message);
                     }
@@ -419,6 +416,10 @@
                 }
             });
         });
-    })
+         $("#user_modal").on("keydown", "input", function(event) {
+                if(event.keyCode == 13) $("#user_save").click();
+         });
+    });
+    
 </script>
 }
